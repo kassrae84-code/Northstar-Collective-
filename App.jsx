@@ -285,8 +285,7 @@ function BrainDump() {
       </button>
     </motion.div>
   );
-        }import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+        
 
 const COLORS = {
   midnight: '#0F172A',
