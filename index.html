@@ -3,19 +3,313 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Northstar Collective — Atlas</title>
+<title>Northstar Collection — True North Pathway</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--bg:#0a0a1a;--bg2:#12122a;--glass:rgba(255,255,255,0.06);--gb:rgba(255,255,255,0.12);--text:#e8e8f0;--dim:#9090b0;--accent:#7b68ee;--a2:#00e5ff;--a3:#ff6ec7;--gold:#ffd700;--green:#4ade80;--red:#ef4444;--orange:#fb923c;--coral:#ff7f6e;--pink:#ff6ec7;--champagne:#f7e7c1;--r:16px}
-html,body{height:100%;overflow:hidden}body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;position:fixed;width:100%;height:100%}
-.screen{position:fixed;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto}.screen.active{display:flex;animation:si .6s ease}@keyframes si{from{opacity:0}to{opacity:1}}.screen.fade-out{animation:so .8s ease forwards}@keyframes so{from{opacity:1}to{opacity:0}}
-#stage-logo{background:radial-gradient(ellipse at center,#12122a,#0a0a1a);text-align:center;cursor:pointer}.logo-glow{font-size:2.8rem;font-weight:800;letter-spacing:2px;background:linear-gradient(135deg,var(--a2),var(--accent),var(--a3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:lp 3s infinite ease-in-out}@keyframes lp{0%,100%{filter:drop-shadow(0 0 10px rgba(123,104,238,.4))}50%{filter:drop-shadow(0 0 30px rgba(123,104,238,.7))}}.logo-sub{color:var(--dim);font-size:.9rem;margin-top:12px;max-width:320px;text-align:center;line-height:1.6}.logo-tap{color:var(--a2);font-size:.85rem;margin-top:24px;animation:bk 1.5s infinite}@keyframes bk{0%,100%{opacity:1}50%{opacity:.3}}.logo-stars{position:absolute;inset:0;pointer-events:none}.logo-star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:tw 3s infinite}@keyframes tw{0%,100%{opacity:.2}50%{opacity:1}}
-#stage-smoke{background:#0a0a1a}.smoke-laonclick="addWishlist()">+ Add</button></div><div id="wlList" style="margin-top:12px"></div><div style="text-align:center;margin-top:12px"><strong style="color:var(--gold)">Total: $<span id="wlTotal">0</span></strong></div></div>';renderWL()}
-function renderWL(){$('wlList').innerHTML=wishlist.map(function(w,i){return '<div class="wl-item"><span class="wi">'+w.icon+'</span><span class="wt">'+w.name+'</span>'+(w.link?'<a class="wl-link" href="'+w.link+'" target="_blank">View →</a>':'')+'<span class="wp">$'+w.price+'</span><button class="cd" onclick="delWL('+i+')">✕</button></div>'}).join('')||'<p style="color:var(--dim);text-align:center;padding:8px">Wishlist is empty.</p>';$('wlTotal').textContent=wishlist.reduce(function(s,w){return s+Number(w.price)},0)}
-function addWishlist(){var n=$('wlName').value.trim(),p=$('wlPrice').value||'0',l=$('wlLink').value.trim();if(!n){toast('Enter item name!');return}var icons=['🛍️','🎁','⭐','📦','👕','🎮','📱','👟','📚','🎨'];wishlist.unshift({name:n,price:Number(p),icon:icons[Math.floor(Math.random()*icons.length)],link:l});lsSet('wishlist',wishlist);$('wlName').value='';$('wlPrice').value='';$('wlLink').value='';renderWL();toast('Added to wishlist!')}
-function delWL(i){wishlist.splice(i,1);lsSet('wishlist',wishlist);renderWL()}
-makeStars($('logoStars'),40);
-</script>
+:root{
+  --midnight-sky: #0A0F1A;
+  --deep-mountain: #121A29;
+  --glass: rgba(18, 26, 41, 0.75);
+  --gb: rgba(255, 154, 118, 0.25);
+  --champagne: #E5C594;
+  --champagne-glow: rgba(229, 197, 148, 0.5);
+  --coral: #FF9A76;
+  --coral-glow: rgba(255, 154, 118, 0.4);
+  --coral-alert: #DC2626;
+  --amber: #D4A574;
+  --text: #F8F9FA;
+  --dim: #9090b0;
+  --r: 24px;
+}
+html,body{height:100%;overflow:hidden}
+body{background:linear-gradient(180deg, #05070E 0%, #0F172A 40%, #1E293B 100%);color:var(--text);font-family:'Georgia','Segoe UI',serif;position:fixed;width:100%;height:100%}
+
+#smokeCanvas{position:fixed;inset:0;pointer-events:none;z-index:1}
+
+.screen{position:fixed;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;padding:16px}
+.screen.active{display:flex;animation:si .6s ease}@keyframes si{from{opacity:0}to{opacity:1}}
+.screen.fade-out{animation:so .8s ease forwards}@keyframes so{from{opacity:1}to{opacity:0}}
+
+.app-wrapper{position:relative;z-index:5;width:100%;max-width:440px;margin:0 auto}
+
+.glass-sanctuary{
+  background: linear-gradient(180deg, rgba(15,23,42,0.85) 0%, rgba(30,41,59,0.92) 100%);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
+  border: 1px solid var(--gb);
+  border-radius: var(--r);
+  padding: 28px 22px;
+  box-shadow: 0 50px 100px rgba(0,0,0,0.95), 0 0 40px var(--coral-glow), inset 0 1px 0 rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.northstar-branding{text-align:center;margin-bottom:12px}
+.northstar-logo-mark{width:72px;height:72px;margin:0 auto 8px;filter:drop-shadow(0 0 20px var(--coral-glow))}
+.northstar-logo-mark svg{width:100%;height:100%}
+
+.brand-name{font-size:20px;letter-spacing:4px;color:var(--champagne);font-weight:600;text-transform:uppercase;text-shadow:0 0 15px var(--champagne-glow)}
+.brand-sub{font-size:9px;letter-spacing:5px;color:var(--dim);text-transform:uppercase;margin-top:2px}
+
+/* PORTAL FRAME (Dissolving Logo / Genie Mystical Space) */
+.portal-frame{
+  width:100%;min-height:280px;border-radius:22px;
+  background:radial-gradient(circle at 50% 45%, rgba(255,154,118,0.2) 0%, rgba(10,15,26,0.9) 70%),
+             linear-gradient(135deg, rgba(212,165,116,0.1), rgba(255,154,118,0.05));
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, var(--amber), var(--coral), var(--champagne)) 1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px 18px;margin:18px 0;
+  box-shadow:0 0 50px var(--coral-glow), inset 0 0 40px rgba(255,154,118,0.1);
+  cursor:pointer;position:relative;transition:all 0.5s ease;
+}
+.portal-frame.dissolving{transform:scale(1.12);filter:blur(16px);opacity:0}
+
+.portal-quote{
+  font-size:14.5px;font-style:italic;color:var(--coral);text-align:center;line-height:1.7;max-width:290px;
+  text-shadow:0 0 20px var(--coral-glow);margin-top:12px;
+}
+.portal-hint{margin-top:16px;font-size:9.5px;letter-spacing:3px;color:var(--champagne);text-transform:uppercase;font-weight:600}
+
+.main-title{
+  font-size:21px;text-align:center;background:linear-gradient(90deg, var(--champagne), var(--coral));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:2px;margin-bottom:4px;text-transform:uppercase;
+}
+.sub-heading{text-align:center;font-size:9.5px;text-transform:uppercase;letter-spacing:3px;color:var(--dim);margin-bottom:20px;opacity:0.8}
+
+/* PATHWAY GRID */
+.pathway-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.pathway-sign{
+  background:linear-gradient(145deg, rgba(30,41,59,0.7), rgba(15,23,42,0.9));
+  border:1px solid rgba(255,154,118,0.2);border-radius:18px;padding:16px 14px;
+  cursor:pointer;transition:all 0.35s ease;text-align:left;
+}
+.pathway-sign:hover{border-color:var(--coral);background:rgba(255,154,118,0.1);box-shadow:0 0 25px var(--coral-glow)}
+.sign-icon{font-size:24px;margin-bottom:6px}
+.sign-title{font-size:13px;color:var(--coral);margin-bottom:3px;font-weight:600}
+.sign-desc{font-size:9.5px;color:var(--dim);line-height:1.4}
+
+.btn-primary{
+  width:100%;background:linear-gradient(135deg, rgba(212,165,116,0.3), rgba(255,154,118,0.2));
+  border:1px solid var(--coral);color:var(--champagne);padding:14px;border-radius:14px;
+  font-size:11.5px;letter-spacing:2px;cursor:pointer;transition:all 0.3s ease;text-align:center;margin-top:12px;text-transform:uppercase;font-weight:600;
+  box-shadow: 0 0 20px var(--coral-glow);
+}
+.btn-primary:hover{background:linear-gradient(90deg, var(--coral), var(--champagne));color:#05070E;box-shadow:0 0 35px var(--coral-glow)}
+
+.back-nav{font-size:11px;color:var(--dim);cursor:pointer;display:inline-block;margin-bottom:14px;text-decoration:underline}
+.back-nav:hover{color:var(--coral)}
+
+.content-card{
+  background:rgba(15,23,42,0.6);border:1px solid rgba(255,154,118,0.2);border-radius:16px;padding:16px;margin-bottom:12px;
+}
+.content-card h3{color:var(--coral);font-size:14px;margin-bottom:8px}
+.content-card p{font-size:11px;color:var(--dim);line-height:1.7;margin-bottom:6px}
+
+input,textarea{
+  width:100%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,154,118,0.25);border-radius:10px;
+  padding:10px;color:var(--text);font-size:12px;margin:6px 0;outline:none;
+}
+input:focus,textarea:focus{border-color:var(--coral);box-shadow:0 0 12px var(--coral-glow)}
+
+/* STATUS BAR */
+.ground-bar{
+  position:fixed;bottom:0;left:0;right:0;background:rgba(10,15,26,0.95);backdrop-filter:blur(20px);
+  padding:10px 16px;display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid rgba(255,154,118,0.25);z-index:100;
+}
+.sos-button{background:var(--coral-alert);color:white;border:none;padding:6px 14px;border-radius:8px;font-weight:700;font-size:11px;cursor:pointer}
+.genie-indicator{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--dim)}
+.genie-pulse{width:8px;height:8px;border-radius:50%;background:var(--coral);animation:pulseGlow 2s infinite}
+@keyframes pulseGlow{0%,100%{opacity:1;box-shadow:0 0 10px var(--coral-glow)}50%{opacity:0.3}}
+</style>
+</head>
+<body>
+
+  <!-- SMOKE & MIST CANVAS -->
+  <canvas id="smokeCanvas"></canvas>
+
+  <!-- SCREEN 1: PORTAL & LOGO -->
+  <div class="screen active" id="screenPortal">
+    <div class="app-wrapper">
+      <div class="glass-sanctuary">
+        <div class="northstar-branding">
+          <div class="northstar-logo-mark">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FF9A76" />
+                  <stop offset="50%" stop-color="#E5C594" />
+                  <stop offset="100%" stop-color="#D4A574" />
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGrad)" stroke-width="2.5"/>
+              <circle cx="50" cy="50" r="35" fill="none" stroke="url(#logoGrad)" stroke-width="1" opacity="0.6"/>
+              <polygon points="50,8 54,22 50,18 46,22" fill="url(#logoGrad)"/>
+              <text x="50" y="58" text-anchor="middle" font-family="Georgia" font-size="28" font-weight="bold" fill="url(#logoGrad)">N</text>
+            </svg>
+          </div>
+          <h1 class="brand-name">NORTHSTAR</h1>
+          <p class="brand-sub">COLLECTION</p>
+        </div>
+
+        <div class="portal-frame" id="portalBox" onclick="enterPortal()">
+          <div style="font-size: 50px; margin-bottom: 8px; filter: drop-shadow(0 0 20px var(--coral-glow));">☽</div>
+          <p class="portal-quote">"The longest journey is the search for one's self."</p>
+          <span class="portal-hint">✦ Touch Logo to Dissolve & Enter ✦</span>
+        </div>
+
+        <h2 class="main-title">True North Pathway</h2>
+        <p class="sub-heading">Sanctuary for the Overlooked</p>
+
+        <button class="btn-primary" onclick="enterPortal()">✨ Step Through Smoke Portal ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: MISSION -->
+  <div class="screen" id="screenMission">
+    <div class="app-wrapper">
+      <div class="glass-sanctuary">
+        <span class="back-nav" onclick="goTo('screenPortal')">← Back to Portal</span>
+        <p class="sub-heading" style="margin-bottom:4px;">FOUNDATIONAL PURPOSE</p>
+        <h2 class="main-title" style="font-size:18px; margin-bottom:16px;">Our Commitment</h2>
+
+        <div class="content-card">
+          <p>Everyone deserves to feel breathtaking. <strong>Northstar Collection</strong> was built for the ones who stand quietly — the ones whose voices do not always boom, and the forgotten people of our communities who have carried too much alone.</p>
+          <p>This is a living bridge: weaving family life, education, wellness, and community together under midnight glass and coral warmth to support you every step of the way.</p>
+        </div>
+
+        <button class="btn-primary" onclick="goTo('screenPathway')">⛰️ Enter Mountain Pathway ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: PATHWAY ROOMS -->
+  <div class="screen" id="screenPathway">
+    <div class="app-wrapper">
+      <div class="glass-sanctuary">
+        <span class="back-nav" onclick="goTo('screenMission')">← Back to Purpose</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <p style="font-size:12px; color:var(--coral); letter-spacing:1.5px; font-weight:600;">GENIE MOUNTAIN PATHWAY</p>
+        </div>
+        <p style="font-size:10px; color:var(--dim); margin-bottom:10px;">Select a room along your path:</p>
+
+        <div class="pathway-grid">
+          <div class="pathway-sign" onclick="openRoom('genie')">
+            <div class="sign-icon">🧞</div>
+            <h3 class="sign-title">Genie Hub</h3>
+            <p class="sign-desc">Avatar, toxin scan & styling.</p>
+          </div>
+          <div class="pathway-sign" onclick="openRoom('family')">
+            <div class="sign-icon">👨‍👩‍👧‍👦</div>
+            <h3 class="sign-title">Family Hub</h3>
+            <p class="sign-desc">Calendar, chores & wishlists.</p>
+          </div>
+          <div class="pathway-sign" onclick="openRoom('wellness')">
+            <div class="sign-icon">🧠</div>
+            <h3 class="sign-title">Wellness</h3>
+            <p class="sign-desc">Health flows & calm.</p>
+          </div>
+          <div class="pathway-sign" onclick="openRoom('journal')">
+            <div class="sign-icon">📝</div>
+            <h3 class="sign-title">Brain Dump</h3>
+            <p class="sign-desc">Reflect & release.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: ROOM VIEW -->
+  <div class="screen" id="screenRoom">
+    <div class="app-wrapper">
+      <div class="glass-sanctuary">
+        <span class="back-nav" onclick="goTo('screenPathway')">← Back to Pathway</span>
+        <div id="roomContentDynamic"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROUND BAR STATUS -->
+  <div class="ground-bar">
+    <div class="genie-indicator">
+      <div class="genie-pulse"></div>
+      <span>Atlas & Aura Active</span>
+    </div>
+    <button class="sos-button" onclick="alert('SOS Emergency Activated: Breathing guide & responder log active.')">SOS 999</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('smokeCanvas');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+
+    const particles = [];
+    for (let i = 0; i < 60; i++) {
+      particles.push({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        r: Math.random() * 150 + 70, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, alpha: Math.random() * 0.045 + 0.015
+      });
+    }
+
+    function renderSmoke() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        let dx = mouseX - p.x, dy = mouseY - p.y, dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 280) { p.x += (dx / dist) * 0.25; p.y += (dy / dist) * 0.25; }
+        if (p.x < -100) p.x = canvas.width + 100; if (p.x > canvas.width + 100) p.x = -100;
+        if (p.y < -100) p.y = canvas.height + 100; if (p.y > canvas.height + 100) p.y = -100;
+
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+        grad.addColorStop(0, `rgba(255, 154, 118, ${p.alpha * 1.8})`);
+        grad.addColorStop(0.5, `rgba(229, 197, 148, ${p.alpha * 1.2})`);
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      });
+      requestAnimationFrame(renderSmoke);
+    }
+    renderSmoke();
+
+    function enterPortal() {
+      const portal = document.getElementById('portalBox');
+      portal.classList.add('dissolving');
+      particles.forEach(p => { p.r *= 1.5; });
+      setTimeout(() => {
+        portal.classList.remove('dissolving');
+        goTo('screenMission');
+      }, 550);
+    }
+
+    function goTo(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function openRoom(type) {
+      goTo('screenRoom');
+      const container = document.getElementById('roomContentDynamic');
+      let html = '';
+      if(type === 'genie') {
+        html = `<h3>Genie Hub</h3><p>Your interactive avatar space, toxin checks, and custom aesthetic styling wrapped in mystical glow.</p>`;
+      } else if(type === 'family') {
+        html = `<h3>Family & Chores Hub</h3><p>Manage home-ed routines, kids' requests, and shared calendars effortlessly.</p>`;
+      } else if(type === 'wellness') {
+        html = `<h3>Wellness & Health Flows</h3><p>Pacing tools, soothing breathing frequencies, and grounded calm.</p>`;
+      } else if(type === 'journal') {
+        html = `<h3>Brain Dump & Journal</h3><p>Clear your mind, process thoughts, and anchor your daily intentions.</p>`;
+      }
+      container.innerHTML = html;
+    }
+  </script>
 </body>
 </html>
-
