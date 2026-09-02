@@ -13,8 +13,8 @@
       --deep-forest: #071510;
       --champagne: #E5C594;
       --champagne-glow: rgba(229, 197, 148, 0.5);
-      --glass-base: rgba(7, 21, 16, 0.9);
-      --glass-border: rgba(229, 197, 148, 0.3);
+      --glass-base: rgba(7, 21, 16, 0.92);
+      --glass-border: rgba(229, 197, 148, 0.35);
       --coral-alert: #E06D53;
       --text-main: #F4F5F7;
       --text-muted: #9BA3A0;
@@ -121,7 +121,6 @@
       letter-spacing: 1px;
     }
 
-    /* Cinematic Compass / Logo Portal Seal */
     .compass-portal {
       width: 90px; height: 90px;
       background: radial-gradient(circle, rgba(229,197,148,0.35) 0%, rgba(7,21,16,0.8) 70%);
@@ -169,7 +168,7 @@
 
     .mountain-tile {
       background: rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(229, 197, 148, 0.15);
+      border: 1px solid rgba(229, 197, 148, 0.2);
       border-radius: 18px;
       padding: 14px;
       text-align: left;
@@ -238,7 +237,6 @@
       <!-- VIEW 1: Smoke Portal & Luxury Brand Entrance -->
       <div class="view-screen active" id="viewEntrance">
         <div class="compass-portal" onclick="initiateScanner()" title="Touch to dissolve through the smoke portal">
-          <!-- Custom Northstar Compass Emblem SVG -->
           <svg viewBox="0 0 100 100">
             <polygon points="50,5 56,40 95,50 56,60 50,95 44,60 5,50 44,40" fill="none" stroke="#E5C594" stroke-width="2"/>
             <circle cx="50" cy="50" r="30" fill="none" stroke="#E5C594" stroke-width="1.5" stroke-dasharray="4 2"/>
@@ -529,7 +527,7 @@
     }
 
     function triggerSOS() {
-      document.getElementById('sosLog').innerHTML = "<b>SOS Activated:</b> Dialing 999 / contacts. Audio event logger active for paramedics. Box breathing: In (4s) ... Hold (4s) ... Exhale (4s).";
+      document.getElementById('sosLog', 'sosLog').innerHTML = "<b>SOS Activated:</b> Dialing 999 / contacts. Audio event logger active for paramedics. Box breathing: In (4s) ... Hold (4s) ... Exhale (4s).";
     }
   </script>
 </body>
