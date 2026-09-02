@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Northstar Collective</title>
+  <title>Your True North — Genie Mountain Pathway</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-void: #030508;
-      --smoke-layer-1: rgba(18, 24, 38, 0.6);
-      --smoke-layer-2: rgba(229, 197, 148, 0.03);
+      --void-bg: #030806;
+      --deep-forest: #071510;
       --champagne: #E5C594;
-      --champagne-dim: rgba(229, 197, 148, 0.15);
-      --coral-glow: rgba(224, 109, 83, 0.12);
+      --champagne-glow: rgba(229, 197, 148, 0.4);
+      --glass-base: rgba(7, 21, 16, 0.88);
+      --glass-border: rgba(229, 197, 148, 0.25);
+      --coral-alert: #E06D53;
       --text-main: #F4F5F7;
-      --text-sub: #8C93A3;
+      --text-muted: #9BA3A0;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
 
     body {
-      background-color: var(--bg-void);
+      background-color: var(--void-bg);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
@@ -32,229 +33,487 @@
       position: relative;
     }
 
-    /* Deep Atmospheric Smoke Layers */
-    .smoke-atmosphere {
+    #smokeCanvas {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: 
-        radial-gradient(circle at 20% 20%, rgba(15, 22, 36, 0.8) 0%, transparent 45%),
-        radial-gradient(circle at 80% 80%, rgba(30, 20, 25, 0.5) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(229, 197, 148, 0.02) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
-      filter: blur(40px);
-      animation: ambientShift 15s ease-in-out infinite alternate;
     }
 
-    @keyframes ambientShift {
-      0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
-      100% { transform: scale(1.08) translate(-15px, -10px); opacity: 1; }
-    }
-
-    .sanctuary-frame {
+    .app-container {
       position: relative;
       z-index: 2;
       width: 100%;
-      max-width: 400px;
-      padding: 24px;
+      max-width: 440px;
+      padding: 16px;
     }
 
-    /* Immersive Glass Panel */
-    .atmospheric-card {
-      background: var(--smoke-layer-1);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(229, 197, 148, 0.1);
-      border-radius: 28px;
-      padding: 28px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    .glass-card {
+      background: var(--glass-base);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid var(--glass-border);
+      border-radius: 40px;
+      padding: 32px 24px;
+      box-shadow: 0 50px 100px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.1);
       position: relative;
       overflow: hidden;
     }
 
-    .atmospheric-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at 50% 0%, rgba(229, 197, 148, 0.05), transparent 70%);
-      pointer-events: none;
+    .view-screen { display: none; }
+    .view-screen.active { display: block; animation: fadeIn 0.6s ease forwards; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .sanctuary-header {
+    .brand-top {
       text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .sanctuary-header h1 {
+      letter-spacing: 6px;
       color: var(--champagne);
-      font-size: 15px;
-      font-weight: 500;
-      letter-spacing: 3px;
+      font-size: 16px;
+      font-weight: 600;
       text-transform: uppercase;
-      margin-top: 10px;
-      text-shadow: 0 0 20px rgba(229, 197, 148, 0.3);
+      margin-bottom: 6px;
+      text-shadow: 0 0 20px var(--champagne-glow);
     }
 
-    .sanctuary-header p {
-      color: var(--text-sub);
-      font-size: 11px;
-      letter-spacing: 1px;
-      margin-top: 6px;
-    }
-
-    /* Fluid Interactive Selector */
-    .realm-switcher {
-      display: flex;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 4px;
-      border-radius: 16px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-    }
-
-    .realm-btn {
-      flex: 1;
-      padding: 12px;
-      background: transparent;
-      border: none;
-      color: var(--text-sub);
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      border-radius: 12px;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .realm-btn.active {
-      background: var(--champagne-dim);
+    .manifesto-title {
       color: var(--champagne);
-      box-shadow: 0 0 20px rgba(229, 197, 148, 0.1);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-align: center;
+      margin: 10px 0 4px 0;
+      text-shadow: 0 0 25px var(--champagne-glow);
     }
 
-    /* Interactive Elements */
-    .interactive-row {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 14px;
+    .manifesto-subtitle {
+      color: var(--champagne);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-align: center;
+      margin-bottom: 18px;
+      opacity: 0.85;
+    }
+
+    .manifesto-body {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      text-align: left;
+      line-height: 1.8;
+      margin-bottom: 22px;
+      padding: 0 4px;
+    }
+
+    .manifesto-body p {
+      margin-bottom: 12px;
+    }
+
+    .founder-sig {
+      text-align: center;
+      font-size: 11px;
+      color: var(--champagne);
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+
+    .compass-trigger {
+      width: 75px; height: 75px;
+      background: radial-gradient(circle, rgba(229,197,148,0.3) 0%, transparent 70%);
+      border: 1px solid var(--champagne);
+      border-radius: 50%;
+      margin: 0 auto 16px auto;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 30px;
+      box-shadow: 0 0 35px var(--champagne-glow);
+      animation: pulseCompass 3s infinite alternate;
+    }
+
+    @keyframes pulseCompass {
+      0% { transform: scale(0.95); box-shadow: 0 0 20px var(--champagne-glow); }
+      100% { transform: scale(1.05); box-shadow: 0 0 45px var(--champagne); }
+    }
+
+    .scanner-line {
+      width: 100%; height: 2px;
+      background: var(--champagne);
+      box-shadow: 0 0 20px var(--champagne);
+      position: absolute; top: 0; left: 0;
+      display: none;
+      animation: scanMove 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes scanMove {
+      from { top: 0%; }
+      to { top: 100%; }
+    }
+
+    .mountain-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .mountain-tile {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .interactive-row:hover {
-      border-color: rgba(229, 197, 148, 0.2);
-      background: rgba(0, 0, 0, 0.45);
+    .mountain-tile:hover {
+      border-color: rgba(229, 197, 148, 0.4);
+      background: rgba(229, 197, 148, 0.05);
     }
 
-    .fluid-action-btn {
-      width: 100%;
-      margin-top: 14px;
-      background: linear-gradient(135deg, rgba(229, 197, 148, 0.15), rgba(229, 197, 148, 0.05));
-      border: 1px solid rgba(229, 197, 148, 0.3);
+    .mountain-tile h3 {
+      font-size: 13px;
       color: var(--champagne);
-      padding: 14px;
+      margin-bottom: 4px;
+    }
+
+    .mountain-tile p {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .gold-btn {
+      width: 100%;
+      margin-top: 12px;
+      background: linear-gradient(135deg, rgba(229, 197, 148, 0.25), rgba(229, 197, 148, 0.05));
+      border: 1px solid rgba(229, 197, 148, 0.5);
+      color: var(--champagne);
+      padding: 12px;
       border-radius: 14px;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 1px;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
-    .fluid-action-btn:hover {
+    .gold-btn:hover {
       background: var(--champagne);
-      color: var(--bg-void);
-      box-shadow: 0 0 25px rgba(229, 197, 148, 0.4);
+      color: var(--void-bg);
+      box-shadow: 0 0 30px var(--champagne-glow);
     }
 
-    .pulsing-dot {
+    .back-link {
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
       display: inline-block;
-      width: 6px;
-      height: 6px;
-      background-color: var(--champagne);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--champagne);
-      animation: pulse 2s infinite;
-      margin-right: 6px;
+      margin-bottom: 14px;
+      text-decoration: underline;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(0.95); opacity: 0.6; }
-      50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px var(--champagne); }
-      100% { transform: scale(0.95); opacity: 0.6; }
-    }
+    .back-link:hover { color: var(--champagne); }
   </style>
 </head>
 <body>
-  <div class="smoke-atmosphere"></div>
 
-  <div class="sanctuary-frame">
-    <div class="atmospheric-card">
-      <div class="sanctuary-header">
-        <div style="font-size: 24px; color: var(--champagne); filter: drop-shadow(0 0 10px rgba(229,197,148,0.4));">❖</div>
-        <h1>Northstar Collective</h1>
-        <p>Atmospheric Sanctuary & Micro-Economy</p>
+  <canvas id="smokeCanvas"></canvas>
+  <div class="scanner-line" id="scannerLine"></div>
+
+  <div class="app-container">
+    <div class="glass-card" id="mainCard">
+
+      <!-- VIEW 1: The Smoke Portal & Mission Statement -->
+      <div class="view-screen active" id="viewEntrance">
+        <div class="compass-trigger" onclick="initiateScanner()">🧭</div>
+        <div class="brand-top">NORTHSTAR COLLECTION</div>
+        <h1 class="manifesto-title">True North Vision</h1>
+        <div class="manifesto-subtitle">For the Shy, the Overlooked & the Forgotten</div>
+        
+        <div class="manifesto-body">
+          <p>Everyone deserves to feel breathtaking. <strong>Your True North</strong> was built for the ones who stand quietly, the ones whose voices do not always boom, and the forgotten people of our communities who have carried too much alone.</p>
+          <p>This app is a living bridge: parents weaving love into home education, chores, and daily rhythms; teaching kids how to navigate real life; and bringing elders and youth together to protect community health and rebuild genuine safety by sharing stories of healing.</p>
+          <p>When connections return, the world shifts from isolation into a thriving sanctuary of mutual support, sustainable cash flow, and unbreakable human belonging.</p>
+        </div>
+
+        <div class="founder-sig">
+          Founder: Kassie Oldfield<br>
+          <span style="font-size: 10px; color: var(--text-muted);">✦ Your True North</span>
+        </div>
+
+        <button class="gold-btn" onclick="initiateScanner()">Step Onto The Mountain Pathway</button>
+        <button class="gold-btn" style="background: rgba(229,197,148,0.08); border-color: rgba(229,197,148,0.25);" onclick="openZone('toxinScanner')">⚡ Quick On-The-Go Toxin Scan</button>
       </div>
 
-      <div class="realm-switcher">
-        <button class="realm-btn active" id="r1" onclick="switchRealm('escrow')">Escrow Vault</button>
-        <button class="realm-btn" id="r2" onclick="switchRealm('showcase')">Editorial Tiers</button>
+      <!-- VIEW 1.5: The Ascent & Purpose Contract -->
+      <div class="view-screen" id="viewContract">
+        <h1 class="manifesto-title" style="font-size: 16px;">The Ascent Contract</h1>
+        <div class="manifesto-subtitle">Uplifting Your Purpose & Inner Superpower</div>
+        
+        <div class="manifesto-body">
+          <p>By stepping across this threshold onto the Genie Mountain Pathway, you enter a personal covenant to uplift yourself, evolve into a stronger version of who you are, and discover your true purpose.</p>
+          <p>Look inward: <strong>What is your unique superpower?</strong> Whether it is quiet resilience, fierce family protection, creative vision, or deep empathy for the overlooked—your gift is needed here to make a difference.</p>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.4); padding: 14px; border-radius: 16px; border: 1px solid rgba(229,197,148,0.3); margin-bottom: 16px;">
+          <label style="font-size: 10px; color: var(--champagne); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px;">Name Your Superpower / Purpose:</label>
+          <input type="text" id="superpowerInput" placeholder="e.g., Unbreakable resilience & bringing people together" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(229,197,148,0.2); border-radius: 10px; color: #fff; padding: 10px; font-size: 11px; margin-bottom: 8px;">
+          <button class="gold-btn" style="margin-top:0;" onclick="sealContract()">Seal Contract & Enter Mountain Signs ✓</button>
+        </div>
       </div>
 
-      <!-- Realm 1: Escrow Vault -->
-      <div id="realmEscrow">
-        <div class="interactive-row">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span style="font-size: 13px; font-weight: 500;">Lawn Maintenance & Edging</span>
-            <span style="color: var(--champagne); font-weight: 600; font-size: 13px;">£12.00</span>
+      <!-- VIEW 2: The Genie Mountain Pathway (Signs & Hub) -->
+      <div class="view-screen" id="viewMountain">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h2 style="font-size: 15px; color: var(--champagne); letter-spacing: 2px;">GENIE MOUNTAIN PATHWAY</h2>
+          <span style="font-size: 11px; color: var(--text-muted);">Atlas & Aura Active</span>
+        </div>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">Follow the signs along your path:</p>
+        
+        <div class="mountain-grid">
+          <div class="mountain-tile" onclick="openZone('mensZone')">
+            <h3>Men's Ascent</h3>
+            <p>Strength, style, grooming & tailored capsules.</p>
           </div>
-          <div style="font-size: 11px; color: var(--text-sub); display: flex; align-items: center;">
-            <span class="pulsing-dot"></span><span id="vaultStatus">Secured in Atmospheric Escrow</span>
+          <div class="mountain-tile" onclick="openZone('family')">
+            <h3>Family & Chores</h3>
+            <p>Chores, kids' requests (docs/shoes) & calendar.</p>
           </div>
-          <button class="fluid-action-btn" id="vaultBtn" onclick="resolveVault()">Release Funds</button>
+          <div class="mountain-tile" onclick="openZone('toxinScanner')">
+            <h3>Toxin Scanner</h3>
+            <p>Instant purity checks & clean alternatives.</p>
+          </div>
+          <div class="mountain-tile" onclick="openZone('teens')">
+            <h3>Teen Growth & Escrow</h3>
+            <p>Empowerment agreements & secure odd-jobs.</p>
+          </div>
+          <div class="mountain-tile" onclick="openZone('planner')">
+            <h3>Event Planner</h3>
+            <p>Budgets, lifestyle items & affiliate links.</p>
+          </div>
+          <div class="mountain-tile" onclick="openZone('journal')">
+            <h3>Journal Brain Dump</h3>
+            <p>Daily processing & Atlas reflections.</p>
+          </div>
+          <div class="mountain-tile" onclick="openZone('registry')">
+            <h3>Registry & Codes</h3>
+            <p>Anonymous gift tracking & QR share codes.</p>
+          </div>
+          <div class="mountain-tile" onclick="openZone('safety')">
+            <h3>Emergency SOS</h3>
+            <p>One-touch 999, breathing & responder logs.</p>
+          </div>
+          <div class="mountain-tile" onclick="openZone('commerce')">
+            <h3>Local Business Hub</h3>
+            <p>VIP tiers & community micro-economy ads.</p>
+          </div>
         </div>
       </div>
 
-      <!-- Realm 2: Showcase Tiers -->
-      <div id="realmShowcase" style="display: none;">
-        <div class="interactive-row">
-          <span style="font-size: 10px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1.5px;">Foundation</span>
-          <div style="font-size: 13px; font-weight: 500; margin: 4px 0;">Standard Community Access</div>
-          <div style="font-size: 11px; color: var(--text-sub);">Complimentary neighborhood visibility.</div>
-        </div>
-        <div class="interactive-row" style="border-color: rgba(229, 197, 148, 0.2); background: rgba(229, 197, 148, 0.02);">
-          <span style="font-size: 10px; color: var(--champagne); text-transform: uppercase; letter-spacing: 1.5px;">Elevated</span>
-          <div style="font-size: 13px; font-weight: 500; color: var(--champagne); margin: 4px 0;">Promoted Boost (£4.99)</div>
-          <div style="font-size: 11px; color: var(--text-sub);">Priority atmospheric placement.</div>
-        </div>
+      <!-- VIEW 3: Specific Zone Detail Containers -->
+      <div class="view-screen" id="viewZoneDetail">
+        <span class="back-link" onclick="backToMountain()">← Back to Mountain Pathway</span>
+        <div id="zoneContentDynamic"></div>
       </div>
+
     </div>
   </div>
 
   <script>
-    function switchRealm(realm) {
-      if(realm === 'escrow') {
-        document.getElementById('realmEscrow').style.display = 'block';
-        document.getElementById('realmShowcase').style.display = 'none';
-        document.getElementById('r1').classList.add('active');
-        document.getElementById('r2').classList.remove('active');
-      } else {
-        document.getElementById('realmEscrow').style.display = 'none';
-        document.getElementById('realmShowcase').style.display = 'block';
-        document.getElementById('r2').classList.add('active');
-        document.getElementById('r1').classList.remove('active');
+    const canvas = document.getElementById('smokeCanvas');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const particles = [];
+    for (let i = 0; i < 35; i++) {
+      particles.push({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        r: Math.random() * 120 + 60, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, alpha: Math.random() * 0.03 + 0.01
+      });
+    }
+
+    function renderSmoke() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -60) p.x = canvas.width + 60; if (p.x > canvas.width + 60) p.x = -60;
+        if (p.y < -60) p.y = canvas.height + 60; if (p.y > canvas.height + 60) p.y = -60;
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+        grad.addColorStop(0, `rgba(229, 197, 148, ${p.alpha * 1.5})`);
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      });
+      requestAnimationFrame(renderSmoke);
+    }
+    renderSmoke();
+
+    function initiateScanner() {
+      const scanner = document.getElementById('scannerLine');
+      scanner.style.display = 'block';
+      setTimeout(() => {
+        scanner.style.display = 'none';
+        document.getElementById('viewEntrance').classList.remove('active');
+        document.getElementById('viewContract').classList.add('active');
+      }, 1500);
+    }
+
+    function sealContract() {
+      document.getElementById('viewContract').classList.remove('active');
+      document.getElementById('viewMountain').classList.add('active');
+    }
+
+    function backToMountain() {
+      document.getElementById('viewZoneDetail').classList.remove('active');
+      document.getElementById('viewMountain').classList.add('active');
+    }
+
+    function openZone(zone) {
+      document.getElementById('viewEntrance').classList.remove('active');
+      document.getElementById('viewContract').classList.remove('active');
+      document.getElementById('viewMountain').classList.remove('active');
+      const container = document.getElementById('zoneContentDynamic');
+      
+      let html = '';
+      if(zone === 'mensZone') {
+        html = `
+          <h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">The Men's Ascent</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Strength, style, grooming & tailored wardrobe capsules.</p>
+          <div style="background: rgba(0,0,0,0.4); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 12px;">
+            <strong style="font-size: 12px; color: var(--champagne);">Tailored Wardrobe & Grooming Vault</strong>
+            <p style="font-size: 10px; color: var(--text-muted); margin: 6px 0 10px 0;">Explore curated capsule essentials and grooming products.</p>
+            <button class="gold-btn" onclick="alert('Opening Affiliate Partner for Men Essentials... (Commission Secured)')">Explore Grooming Products</button>
+          </div>`;
+      } else if(zone === 'toxinScanner') {
+        html = `
+          <h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Purity & Toxin Scanner</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Quick check for ingredients, household products, and herbal supplements.</p>
+          <div style="background: rgba(0,0,0,0.4); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 12px;">
+            <input type="text" placeholder="Type product or ingredient..." style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(229,197,148,0.2); border-radius: 10px; color: #fff; padding: 10px; font-size: 11px; margin-bottom: 8px;">
+            <button class="gold-btn" onclick="alert('Analysis verified: Clean botanical source. Recommended alternative loaded (Affiliate Commission Secured).')">Scan Item</button>
+          </div>`;
+      } else if(zone === 'family') {
+        html = `
+          <h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Family Chore & Request Hub</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Add chores, submit kids' requests (doctor, dentist, new shoes), and view calendar.</p>
+          
+          <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px;">
+            <strong style="font-size: 11px; color: var(--champagne);">Kids' Quick Requests</strong>
+            <p style="font-size: 10px; color: var(--text-muted); margin: 4px 0 8px 0;">Need a doctor call, dentist appointment, or new shoes?</p>
+            <input type="text" id="familyReqInput" placeholder="e.g., Make me a dentist appointment / Need new shoes" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(229,197,148,0.2); border-radius: 8px; color: #fff; padding: 8px; font-size: 10px; margin-bottom: 6px;">
+            <button class="gold-btn" style="margin-top:0; padding:8px;" onclick="addFamilyRequest()">Submit Request to Family Hub</button>
+            <div id="requestList" style="margin-top: 8px; font-size: 10px; color: var(--text-muted);">
+              • Need new shoes (Pending)<br>• Ring docs for checkup (Active)
+            </div>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px;">
+            <strong style="font-size: 11px; color: var(--champagne);">Chore Board & Pick-ups</strong>
+            <p style="font-size: 10px; color: var(--text-muted); margin: 4px 0 6px 0;">Kids can claim tasks to earn rewards or escrow funds.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+              <span>Kitchen & Dish Clearing (£3)</span>
+              <button class="gold-btn" style="width: auto; margin: 0; padding: 3px 8px; font-size: 9px;" onclick="this.innerText='Claimed ✓'; this.style.opacity='0.5'">Pick Up</button>
+            </div>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
+            <strong style="font-size: 11px; color: var(--champagne);">Family Calendar & To-Dos</strong>
+            <p style="font-size: 10px; color: var(--text-muted); margin: 4px 0;">• Wednesday: Home-ed project session</p>
+            <p style="font-size: 10px; color: var(--text-muted);">• Friday: Family movie night & snacks</p>
+          </div>`;
+      } else if(zone === 'teens') {
+        html = `
+          <h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Teen Growth & Escrow Vault</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Guaranteed secure fund locking with dual sign-off.</p>
+          <div style="background: rgba(0,0,0,0.4); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+              <span>Garden Edging & Lawn</span>
+              <strong style="color: var(--champagne);">£15.00</strong>
+            </div>
+            <p style="font-size: 10px; color: var(--text-muted); margin-bottom: 10px;" id="escrowState">Status: Secured in escrow</p>
+            <button class="gold-btn" onclick="resolveJob()">Parent & Teen Tick Complete ✓</button>
+          </div>`;
+      } else if(zone === 'planner') {
+        html = `
+          <h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Event Planner</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Occasion budgets, lifestyle items, and direct affiliate checkouts.</p>
+          <div style="background: rgba(0,0,0,0.4); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 12px;">
+            <strong style="font-size: 12px; color: var(--champagne);">Cyprus Beach Celebration Budget</strong>
+            <p style="font-size: 10px; color: var(--text-muted); margin: 4px 0 10px 0;">Click items to buy live (Commission secured).</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 6px 0;">
+              <span>Boho Velvet Lounge Setup</span>
+              <button class="gold-btn" style="width: auto; margin: 0; padding: 4px 10px; font-size: 10px;" onclick="alert('Opening live affiliate link... (Commission Secured)')">View Live</button>
+            </div>
+          </div>`;
+      } else if(zone === 'journal') {
+        html = `
+          <h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Journal Brain Dump</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Clear your mind and process thoughts with Atlas.</p>
+          <div style="background: rgba(0,0,0,0.4); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 12px;">
+            <textarea placeholder="Type your thoughts here..." style="width: 100%; height: 75px; background: rgba(0,0,0,0.5); border: 1px solid rgba(229,197,148,0.2); border-radius: 10px; color: #fff; padding: 10px; font-size: 11px; resize: none; margin-bottom: 8px;"></textarea>
+            <button class="gold-btn" onclick="alert('Atlas reflection: You are building an empire. Take a deep breath.')">Reflect with Atlas</button>
+          </div>`;
+      } else if(zone === 'registry') {
+        html = `
+          <h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Registry & QR Share Codes</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Anonymous gift tracking for weddings and baby showers.</p>
+          <div style="background: rgba(0,0,0,0.4); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 12px;">
+            <strong style="font-size: 12px; color: var(--champagne);">Share Code: <span style="background: rgba(229,197,148,0.15); padding: 2px 6px; border-radius: 6px;">NS-8842-CYPRUS</span></strong>
+            <p style="font-size: 10px; color: var(--text-muted); margin: 6px 0 10px 0;">Host never sees who bought what.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 6px 0;">
+              <span>Linen Beach Lounger Set</span>
+              <button class="gold-btn" style="width: auto; margin: 0; padding: 4px 10px; font-size: 10px;" onclick="this.innerText='Purchased ✓'; this.style.opacity='0.5'">Mark Bought</button>
+            </div>
+          </div>`;
+      } else if(zone === 'safety') {
+        html = `
+          <h3 style="color: var(--coral-alert); font-size: 14px; margin-bottom: 8px;">Emergency Safety & SOS</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">One-touch 999 dial, box breathing, and responder logs.</p>
+          <div style="background: rgba(224,109,83,0.08); padding: 14px; border-radius: 16px; border: 1px solid rgba(224,109,83,0.3); margin-bottom: 12px;">
+            <button style="width: 100%; background: var(--coral-alert); color: #fff; border: none; padding: 14px; border-radius: 14px; font-weight: 600; font-size: 12px; cursor: pointer;" onclick="triggerSOS()">🚨 EMERGENCY SOS & 999 DIAL</button>
+            <div id="sosLog" style="font-size: 10px; color: var(--text-muted); margin-top: 10px; line-height: 1.5;"></div>
+          </div>`;
+      } else if(zone === 'commerce') {
+        html = `
+          <h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Local Business Hub & Micro-Economy</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">VIP memberships (£4.99) & local business advertising (£12.99).</p>
+          <div style="display: grid; gap: 8px;">
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 14px; border: 1px solid rgba(229,197,148,0.2);">
+              <strong style="font-size: 11px; color: var(--champagne);">VIP Supporter (£4.99/mo)</strong>
+              <p style="font-size: 10px; color: var(--text-muted);">Priority placement & backing.</p>
+            </div>
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 14px; border: 1px solid rgba(229,197,148,0.3);">
+              <strong style="font-size: 11px; color: var(--champagne);">Local Business Board (£12.99/mo)</strong>
+              <p style="font-size: 10px; color: var(--text-muted);">Unlimited ads & top-of-page boost.</p>
+            </div>
+          </div>`;
+      }
+
+      container.innerHTML = html;
+      document.getElementById('viewZoneDetail').classList.add('active');
+    }
+
+    function addFamilyRequest() {
+      const input = document.getElementById('familyReqInput');
+      const list = document.getElementById('requestList');
+      if(input.value.trim() !== '') {
+        list.innerHTML += `<br>• ${input.value} (New Request ✓)`;
+        input.value = '';
       }
     }
 
-    function resolveVault() {
-      const status = document.getElementById('vaultStatus');
-      const btn = document.getElementById('vaultBtn');
-      status.innerHTML = "Funds Transferred Successfully ✓";
-      status.style.color = "var(--champagne)";
-      btn.innerHTML = "Vault Settled";
-      btn.style.opacity = "0.5";
-      btn.style.pointerEvents = "none";
+    function resolveJob() {
+      document.getElementById('escrowState').innerText = "Status: Completed & Funds Released ✓";
+      document.getElementById('escrowState').style.color = "var(--champagne)";
+    }
+
+    function triggerSOS() {
+      document.getElementById('sosLog').innerHTML = "<b>SOS Activated:</b> Dialing 999 / contacts. Audio event logger active for paramedics. Box breathing: In (4s) ... Hold (4s) ... Exhale (4s).";
     }
   </script>
 </body>
