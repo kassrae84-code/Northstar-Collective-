@@ -10,11 +10,10 @@
   <style>
     :root {
       --void-bg: #030806;
-      --deep-forest: #071510;
       --champagne: #E5C594;
-      --champagne-glow: rgba(229, 197, 148, 0.45);
-      --glass-base: rgba(7, 21, 16, 0.94);
-      --glass-border: rgba(229, 197, 148, 0.35);
+      --champagne-glow: rgba(229, 197, 148, 0.5);
+      --glass-base: rgba(7, 21, 16, 0.95);
+      --glass-border: rgba(229, 197, 148, 0.4);
       --text-main: #F4F5F7;
       --text-muted: #9BA3A0;
     }
@@ -43,7 +42,7 @@
       position: relative;
       z-index: 2;
       width: 100%;
-      max-width: 440px;
+      max-width: 420px;
       padding: 16px;
     }
 
@@ -53,7 +52,7 @@
       -webkit-backdrop-filter: blur(40px);
       border: 1px solid var(--glass-border);
       border-radius: 36px;
-      padding: 32px 24px;
+      padding: 28px 22px;
       box-shadow: 0 50px 100px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.1);
       position: relative;
       overflow: hidden;
@@ -63,91 +62,94 @@
     .view-screen.active { display: block; animation: fadeIn 0.5s ease forwards; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .brand-eyebrow {
+    .brand-top {
       text-align: center;
       letter-spacing: 4px;
       color: var(--champagne);
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       opacity: 0.8;
     }
 
-    .screen-title {
-      color: var(--champagne);
-      font-size: 22px;
-      font-weight: 500;
-      letter-spacing: 1.5px;
-      text-align: center;
-      margin-bottom: 6px;
-      text-shadow: 0 0 25px var(--champagne-glow);
-    }
-
-    .screen-subtitle {
-      color: var(--champagne);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 2.5px;
-      text-align: center;
-      margin-bottom: 20px;
-      opacity: 0.8;
-    }
-
-    /* Screen 1 Art Portal Styling */
-    .art-portal-box {
+    /* Screen 1 Visual Portal Box matching your image */
+    .portal-art-box {
       width: 100%;
-      height: 210px;
+      height: 220px;
       border-radius: 20px;
-      background: linear-gradient(135deg, rgba(7,21,16,0.9), rgba(3,8,6,0.95)), url('5420.png') center/cover;
-      border: 1px solid var(--champagne);
-      margin-bottom: 20px;
+      background: linear-gradient(180deg, rgba(3,8,6,0.3) 0%, rgba(7,21,16,0.9) 100%), 
+                  radial-gradient(circle at 50% 40%, rgba(229,197,148,0.2) 0%, transparent 70%);
+      border: 1.5px solid var(--champagne);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
       padding: 20px;
-      box-shadow: 0 0 30px var(--champagne-glow);
+      margin-bottom: 20px;
+      box-shadow: 0 0 35px var(--champagne-glow);
+      cursor: pointer;
       position: relative;
     }
 
-    .art-portal-box h3 {
-      font-size: 15px;
+    .portal-art-box h3 {
+      font-size: 16px;
       color: var(--champagne);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       letter-spacing: 1px;
+      text-shadow: 0 0 15px var(--champagne-glow);
     }
 
-    .art-portal-box p {
-      font-size: 11px;
-      color: var(--text-muted);
+    .portal-art-box p {
+      font-size: 11.5px;
+      color: var(--text-main);
       font-style: italic;
+      line-height: 1.5;
+      max-width: 280px;
+    }
+
+    .screen-title {
+      color: var(--champagne);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-align: center;
+      margin-bottom: 4px;
+      text-shadow: 0 0 20px var(--champagne-glow);
+    }
+
+    .screen-subtitle {
+      color: var(--champagne);
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      text-align: center;
+      margin-bottom: 18px;
+      opacity: 0.8;
     }
 
     .content-body {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
-      line-height: 1.7;
+      line-height: 1.8;
       margin-bottom: 20px;
     }
 
-    .content-body p {
-      margin-bottom: 12px;
-    }
+    .content-body p { margin-bottom: 10px; }
 
     .gold-btn {
       width: 100%;
       background: linear-gradient(135deg, rgba(229, 197, 148, 0.25), rgba(229, 197, 148, 0.05));
       border: 1px solid rgba(229, 197, 148, 0.6);
       color: var(--champagne);
-      padding: 14px;
+      padding: 13px;
       border-radius: 14px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       letter-spacing: 1px;
       cursor: pointer;
@@ -187,7 +189,7 @@
     .mountain-tile h3 {
       font-size: 12px;
       color: var(--champagne);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .mountain-tile p {
@@ -214,21 +216,23 @@
   <div class="app-container">
     <div class="glass-card">
 
-      <!-- STEP 1: LANDING PAGE (Atmospheric Mountain & Quote) -->
-      <div class="view-screen active" id="viewStep1">
-        <div class="brand-eyebrow">Northstar Collection</div>
-        <div class="art-portal-box">
+      <div class="view-screen active" id="viewScreen1">
+        <div class="brand-top">Northstar Collection</div>
+        
+        <div class="portal-art-box" onclick="goToView(2)">
           <h3>The Longest Journey</h3>
           <p>"The longest journey is the search for one's self."</p>
+          <span style="font-size: 9.5px; color: var(--champagne); margin-top: 14px; letter-spacing: 1px;">✦ Touch Portal to Enter ✦</span>
         </div>
+
         <h1 class="screen-title">True North Pathway</h1>
         <div class="screen-subtitle">Sanctuary for the Overlooked</div>
-        <button class="gold-btn" onclick="goToStep(2)">Enter Mission & Commitment ➔</button>
+
+        <button class="gold-btn" onclick="goToView(2)">Enter Mission & Commitment ➔</button>
       </div>
 
-      <!-- STEP 2: MISSION, VALUES & COMMITMENT -->
-      <div class="view-screen" id="viewStep2">
-        <div class="brand-eyebrow">Foundational Purpose</div>
+      <div class="view-screen" id="viewScreen2">
+        <div class="brand-top">Foundational Purpose</div>
         <h1 class="screen-title">Our Commitment</h1>
         <div class="screen-subtitle">Built for the Quiet & Forgotten</div>
         
@@ -237,51 +241,49 @@
           <p>This app is a living bridge: parents weaving love into home education, chores, and daily rhythms; teaching kids how to navigate real life; and bringing elders and youth together to protect community health.</p>
         </div>
 
-        <button class="gold-btn" onclick="goToStep(3)">Proceed to Mountain Pathway ➔</button>
-        <div style="text-align: center; margin-top: 10px;">
-          <span class="back-link" onclick="goToStep(1)">← Back to Landing</span>
+        <button class="gold-btn" onclick="goToView(3)">Proceed to Mountain Pathway Rooms ➔</button>
+        <div style="text-align: center; margin-top: 12px;">
+          <span class="back-link" onclick="goToView(1)">← Back to Landing Portal</span>
         </div>
       </div>
 
-      <!-- STEP 3: MOUNTAIN PATHWAY & ROOMS -->
-      <div class="view-screen" id="viewStep3">
+      <div class="view-screen" id="viewScreen3">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <h2 style="font-size: 13px; color: var(--champagne); letter-spacing: 1.5px;">GENIE MOUNTAIN PATHWAY</h2>
-          <span class="back-link" style="margin:0;" onclick="goToStep(2)">← Back</span>
+          <span class="back-link" style="margin:0;" onclick="goToView(2)">← Back</span>
         </div>
-        <p style="font-size: 10px; color: var(--text-muted); margin-bottom: 12px;">Select a room along your path:</p>
+        <p style="font-size: 10px; color: var(--text-muted); margin-bottom: 14px;">Select a room along your path:</p>
         
         <div class="mountain-grid">
           <div class="mountain-tile" onclick="openRoom('mens')">
             <h3>Men's Ascent</h3>
-            <p>Strength, style, grooming & tailored capsules.</p>
+            <p>Strength, style, grooming & capsules.</p>
           </div>
           <div class="mountain-tile" onclick="openRoom('womens')">
             <h3>Women's Sanctuary</h3>
-            <p>High fashion, styling & holistic calm.</p>
+            <p>High fashion, styling & calm.</p>
           </div>
           <div class="mountain-tile" onclick="openRoom('family')">
             <h3>Family & Chores</h3>
-            <p>Chores, kids' requests & calendar.</p>
+            <p>Chores, requests & calendar.</p>
           </div>
           <div class="mountain-tile" onclick="openRoom('teens')">
             <h3>Teen Growth & Escrow</h3>
-            <p>Empowerment agreements & odd-jobs.</p>
+            <p>Empowerment & odd-jobs.</p>
           </div>
           <div class="mountain-tile" onclick="openRoom('planner')">
             <h3>Event Planner</h3>
-            <p>Budgets, lifestyle items & affiliate links.</p>
+            <p>Budgets & affiliate links.</p>
           </div>
           <div class="mountain-tile" onclick="openRoom('journal')">
             <h3>Journal Brain Dump</h3>
-            <p>Daily processing & reflections.</p>
+            <p>Daily processing space.</p>
           </div>
         </div>
       </div>
 
-      <!-- ROOM DETAIL VIEW -->
       <div class="view-screen" id="viewRoomDetail">
-        <span class="back-link" onclick="goToStep(3)">← Back to Mountain Pathway</span>
+        <span class="back-link" onclick="goToView(3)">← Back to Pathway Rooms</span>
         <div id="roomContentDynamic"></div>
       </div>
 
@@ -319,34 +321,34 @@
     }
     renderSmoke();
 
-    function goToStep(stepNum) {
-      document.getElementById('viewStep1').classList.remove('active');
-      document.getElementById('viewStep2').classList.remove('active');
-      document.getElementById('viewStep3').classList.remove('active');
+    function goToView(screenNum) {
+      document.getElementById('viewScreen1').classList.remove('active');
+      document.getElementById('viewScreen2').classList.remove('active');
+      document.getElementById('viewScreen3').classList.remove('active');
       document.getElementById('viewRoomDetail').classList.remove('active');
 
-      if(stepNum === 1) document.getElementById('viewStep1').classList.add('active');
-      if(stepNum === 2) document.getElementById('viewStep2').classList.add('active');
-      if(stepNum === 3) document.getElementById('viewStep3').classList.add('active');
+      if(screenNum === 1) document.getElementById('viewScreen1').classList.add('active');
+      if(screenNum === 2) document.getElementById('viewScreen2').classList.add('active');
+      if(screenNum === 3) document.getElementById('viewScreen3').classList.add('active');
     }
 
     function openRoom(roomType) {
-      document.getElementById('viewStep3').classList.remove('active');
+      document.getElementById('viewScreen3').classList.remove('active');
       const container = document.getElementById('roomContentDynamic');
       let html = '';
 
       if(roomType === 'mens') {
-        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Men's Ascent</h3><p style="font-size: 11px; color: var(--text-muted);">Tailored wardrobe capsules, grooming essentials, and strength training focus.</p>`;
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Men's Ascent</h3><p style="font-size: 11px; color: var(--text-muted);">Tailored wardrobe capsules and grooming essentials.</p>`;
       } else if(roomType === 'womens') {
-        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Women's Sanctuary</h3><p style="font-size: 11px; color: var(--text-muted);">High-fashion aesthetics, luxury styling, and holistic inner calm.</p>`;
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Women's Sanctuary</h3><p style="font-size: 11px; color: var(--text-muted);">High-fashion aesthetics and holistic inner calm.</p>`;
       } else if(roomType === 'family') {
-        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Family & Chores Hub</h3><p style="font-size: 11px; color: var(--text-muted);">Home-ed schedules, kid requests (shoes/doctors), and household rotation.</p>`;
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Family & Chores Hub</h3><p style="font-size: 11px; color: var(--text-muted);">Home-ed schedules and kid requests.</p>`;
       } else if(roomType === 'teens') {
-        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Teen Growth & Escrow</h3><p style="font-size: 11px; color: var(--text-muted);">Secure odd-jobs, empowerment agreements, and milestone tracking.</p>`;
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Teen Growth & Escrow</h3><p style="font-size: 11px; color: var(--text-muted);">Secure odd-jobs and empowerment agreements.</p>`;
       } else if(roomType === 'planner') {
-        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Event Planner</h3><p style="font-size: 11px; color: var(--text-muted);">Cyprus beach celebration styling, budgets, and affiliate links.</p>`;
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Event Planner</h3><p style="font-size: 11px; color: var(--text-muted);">Cyprus beach celebration styling and budgets.</p>`;
       } else if(roomType === 'journal') {
-        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Journal Brain Dump</h3><p style="font-size: 11px; color: var(--text-muted);">Daily processing space with guided Atlas reflections.</p>`;
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Journal Brain Dump</h3><p style="font-size: 11px; color: var(--text-muted);">Daily processing space.</p>`;
       }
 
       container.innerHTML = html;
