@@ -1,377 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Northstar Collective — True North Pathway</title>
-  <style>
-    :root {
-      --midnight-sky: #0A0F2E;
-      --deep-mountain: #121A3F;
-      --champagne: #E5C999;
-      --champagne-soft: rgba(229, 201, 153, 0.35);
-      --champagne-glow: rgba(229, 201, 153, 0.45);
-      --coral: #B87355;
-      --mist: rgba(255, 255, 255, 0.06);
-      --text-soft: #D4D4D8;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Northstar Collection — True North Pathway</title>
+<style>
+:root {
+  --midnight: #0A0F2E;
+  --deep: #121A3F;
+  --champagne: #E5C999;
+  --coral: #B87355;
+  --coral-glow: rgba(184, 115, 85, 0.6);
+  --blue: #5B9BD5;
+  --green: #6BBF8A;
+}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  min-height: 100vh;
+  font-family: Georgia, serif;
+  background: linear-gradient(180deg, var(--midnight), var(--deep), #1A2450);
+  color: var(--champagne);
+  overflow-x: hidden;
+}
 
-    body {
-      min-height: 100vh;
-      font-family: 'Georgia', serif;
-      color: var(--text-soft);
-      background: 
-        radial-gradient(ellipse at top, rgba(20, 30, 70, 0.8), transparent 60%),
-        linear-gradient(180deg, var(--midnight-sky) 0%, var(--deep-mountain) 50%, #1A2450 100%);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
+/* ✨ TWINKLING STARS */
+.stars {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+}
+.star {
+  position: absolute; background: white; border-radius: 50%;
+  animation: twinkle 4s infinite alternate;
+}
+@keyframes twinkle {
+  0% { opacity: 0.15; }
+  100% { opacity: 1; }
+}
 
-    .stars-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; z-index: 1;
-    }
+/* 🌫️ FLOATING MIST — STILL MAGIC */
+.mist {
+  position: fixed; top: 0; left: 0; width: 200%; height: 100%;
+  background: radial-gradient(ellipse at 30% 80%, rgba(229,201,153,0.08), transparent 50%);
+  pointer-events: none; z-index: 2;
+  animation: mistMove 30s infinite alternate;
+}
+@keyframes mistMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-15%); }
+}
 
-    .star {
-      position: absolute;
-      width: 2px; height: 2px;
-      background: white; border-radius: 50%;
-      opacity: 0.5;
-      animation: twinkle 4s infinite alternate;
-    }
+/* === PORTAL SCREEN — LOGO RIGHT WAY ROUND === */
+#portal {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+  z-index: 20; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 24px;
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+#portal.fade-away {
+  opacity: 0; transform: scale(1.05); pointer-events: none;
+}
 
-    @keyframes twinkle { 0% { opacity: 0.2; } 100% { opacity: 0.9; } }
+/* ✅ LOGO — PERFECT, NOT BACKWARDS */
+.logo-wrap {
+  text-align: center; margin-bottom: 20px;
+  animation: logoGlow 4s infinite alternate;
+}
+@keyframes logoGlow {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(1.2) drop-shadow(0 0 30px var(--coral-glow)); }
+}
+.compass { width: 170px; height: auto; }
+.brand { font-size: 30px; color: var(--coral); letter-spacing: 6px; text-transform: uppercase; margin-top: 10px; }
+.brand-sub { font-size: 14px; color: var(--champagne); letter-spacing: 6px; text-transform: uppercase; opacity: 0.7; }
 
-    .glass-sanctuary {
-      position: relative; z-index: 2;
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 40px 24px;
-      text-align: center;
-    }
+.mission-box {
+  background: rgba(20, 30, 60, 0.85); border: 2px solid var(--coral);
+  border-radius: 20px; padding: 28px; max-width: 440px; text-align: center;
+  box-shadow: 0 0 30px var(--coral-glow); margin-bottom: 35px;
+}
+.mission-box h2 { color: var(--coral); font-size: 15px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px; }
+.mission-box p { line-height: 1.8; text-transform: uppercase; font-size: 13px; opacity: 0.8; }
 
-    .brand-name {
-      font-size: 22px;
-      letter-spacing: 4px;
-      color: var(--champagne);
-      font-weight: 500;
-      text-transform: uppercase;
-      text-shadow: 0 0 15px var(--champagne-glow);
-      margin-bottom: 4px;
-    }
+.enter-circle {
+  width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(40,50,100,0.9), rgba(15,20,50,0.95));
+  border: 3px solid var(--coral); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 50px var(--coral-glow); transition: all 0.5s ease;
+  animation: pulse 3s infinite alternate;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 40px var(--coral-glow); }
+  100% { box-shadow: 0 0 70px var(--coral-glow); }
+}
+.enter-circle:hover { transform: scale(1.1); }
+.enter-circle svg { width: 120px; height: auto; }
+.enter-text {
+  color: var(--coral); font-size: 14px; letter-spacing: 4px; text-transform: uppercase;
+  margin-top: 25px; cursor: pointer; text-shadow: 0 0 15px var(--coral-glow);
+}
 
-    .brand-sub {
-      font-size: 10px;
-      letter-spacing: 5px;
-      color: var(--text-soft);
-      text-transform: uppercase;
-      margin-bottom: 32px;
-    }
+/* === PATHWAY — MOUNTAIN, ATLAS, ALL CLICKABLE === */
+#pathway {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+  z-index: 10; opacity: 0; pointer-events: none;
+  transition: opacity 1.5s ease;
+  background:
+    linear-gradient(to top, rgba(10,15,40,0.85), rgba(5,8,20,0.75)),
+    url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat;
+  overflow-y: auto; padding: 20px; padding-top: 30px;
+}
+#pathway.visible { opacity: 1; pointer-events: auto; }
 
-    .portal-frame {
-      width: 100%;
-      min-height: 300px;
-      border-radius: 28px;
-      background: linear-gradient(180deg, rgba(30, 40, 80, 0.6), rgba(15, 20, 50, 0.8));
-      border: 2px solid transparent;
-      border-image: linear-gradient(135deg, var(--champagne), var(--coral), var(--champagne)) 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      margin: 0 auto 30px;
-      max-width: 380px;
-      position: relative;
-      cursor: pointer;
-      pointer-events: auto !important;
-      z-index: 9999 !important;
-      transition: all 0.5s ease;
-      box-shadow: 
-        0 0 50px var(--champagne-glow),
-        inset 0 0 60px var(--champagne-soft);
-    }
+.path-header { text-align: center; margin-bottom: 25px; }
+.path-header h2 {
+  color: var(--coral); font-size: 26px; letter-spacing: 5px;
+  text-transform: uppercase; text-shadow: 0 0 20px var(--coral-glow);
+}
+.path-header p { font-size: 12px; text-transform: uppercase; opacity: 0.6; margin-top: 5px; }
 
-    .portal-frame:hover {
-      transform: scale(1.03);
-      box-shadow: 
-        0 0 70px var(--champagne-glow),
-        inset 0 0 80px var(--champagne-soft);
-    }
+/* 🔵 SCANNERS — TOP, CLICKABLE */
+.scanner-row {
+  display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-bottom: 40px;
+}
+.scan-card {
+  padding: 18px 22px; border-radius: 16px; cursor: pointer;
+  text-align: center; text-transform: uppercase; font-weight: 600;
+  letter-spacing: 2px; font-size: 13px; transition: all 0.3s ease;
+}
+.scan-card.blue { border: 2px solid var(--blue); color: var(--blue); background: rgba(20,30,60,0.8); box-shadow: 0 0 20px rgba(91,155,213,0.3); }
+.scan-card.green { border: 2px solid var(--green); color: var(--green); background: rgba(20,30,60,0.8); box-shadow: 0 0 20px rgba(107,191,138,0.3); }
+.scan-card:hover { transform: scale(1.08); }
+.scan-icon { font-size: 28px; margin-bottom: 5px; }
 
-    .compass-inner {
-      width: 200px; height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
+/* 🧞‍♀️ ATLAS — GOLDEN SPIRIT, FLOATING, MAGIC */
+.atlas-box { text-align: center; margin: 30px 0 50px; position: relative; }
+.atlas-glow {
+  width: 200px; height: 250px; margin: 0 auto; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(229,201,153,0.4), transparent 70%);
+  filter: blur(20px); position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+  animation: atlasPulse 4s infinite alternate; z-index: 1;
+}
+@keyframes atlasPulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+.atlas-symbol {
+  font-size: 110px; color: var(--champagne); opacity: 0.35;
+  filter: drop-shadow(0 0 50px var(--champagne));
+  animation: atlasFloat 5s infinite alternate; position: relative; z-index: 2;
+}
+@keyframes atlasFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-20px); }
+}
+.atlas-label {
+  color: var(--coral); font-size: 13px; letter-spacing: 3px;
+  text-transform: uppercase; margin-top: 10px; position: relative; z-index: 2;
+}
 
-    .compass-logo {
-      width: 100%; height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 0 20px var(--champagne-glow));
-    }
+/* 🪵 SIGNPOSTS — ALL CLICKABLE */
+.sign-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px; max-width: 800px; margin: 0 auto 40px;
+}
+.sign-btn {
+  padding: 15px 10px; border-radius: 14px; border: 2px solid var(--coral);
+  background: rgba(20,30,60,0.85); color: var(--coral);
+  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
+  box-shadow: 0 0 15px var(--coral-glow);
+}
+.sign-btn:hover { transform: scale(1.05); }
 
-    .portal-quote { margin-top: 24px; padding: 0 20px; }
-    .portal-quote p {
-      font-style: italic;
-      color: var(--champagne);
-      font-size: 15px;
-      letter-spacing: 1px;
-      text-shadow: 0 0 10px var(--champagne-glow);
-    }
+.back-link {
+  color: var(--coral); font-size: 13px; letter-spacing: 3px;
+  text-transform: uppercase; cursor: pointer; display: block;
+  text-align: center; margin-top: 20px; text-shadow: 0 0 15px var(--coral-glow);
+}
 
-    .enter-btn {
-      margin-top: 28px;
-      padding: 14px 40px;
-      background: linear-gradient(135deg, var(--champagne), var(--coral));
-      border: none;
-      border-radius: 50px;
-      color: var(--midnight-sky);
-      font-size: 14px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      box-shadow: 0 0 20px var(--champagne-glow);
-      pointer-events: auto;
-      z-index: 9999;
-      font-weight: 600;
-    }
+.notes {
+  font-size: 10px; opacity: 0.5; text-align: center; margin-top: 30px; line-height: 1.6;
+}
 
-    .enter-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 35px var(--champagne-glow);
-    }
-
-    .mountain-dashboard {
-      position: relative; z-index: 2;
-      max-width: 900px;
-      margin: 60px auto;
-      border-radius: 24px;
-      overflow: hidden;
-      background: rgba(20, 30, 60, 0.7);
-      border: 1px solid var(--champagne-soft);
-      box-shadow: 0 0 40px var(--champagne-soft);
-      display: none;
-    }
-
-    .mountain-dashboard.show { display: block; }
-
-    .mountain-bg {
-      width: 100%; height: 280px;
-      background: linear-gradient(to top, rgba(10, 15, 40, 0.95), transparent),
-        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .pathway-title {
-      font-size: 1.8rem;
-      color: var(--champagne);
-      text-shadow: 0 0 20px var(--champagne-glow);
-      z-index: 2;
-    }
-
-    .genie-figure {
-      position: absolute;
-      right: 30px; bottom: 30px;
-      font-size: 80px;
-      filter: drop-shadow(0 0 15px var(--champagne-glow));
-    }
-
-    .hub-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 16px;
-      padding: 24px;
-    }
-
-    .hub-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--champagne-soft);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .hub-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--champagne);
-      box-shadow: 0 8px 25px var(--champagne-soft);
-    }
-
-    .hub-card h3 {
-      color: var(--champagne);
-      font-size: 16px;
-      margin-bottom: 6px;
-    }
-
-    .hub-card p {
-      font-size: 12px;
-      color: var(--text-soft);
-      opacity: 0.8;
-    }
-
-    .back-link {
-      display: inline-block;
-      margin-top: 30px;
-      color: var(--champagne);
-      text-decoration: none;
-      font-size: 14px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    .back-link:hover { text-shadow: 0 0 10px var(--champagne-glow); }
-
-    .disclaimer {
-      margin-top: 60px;
-      padding: 20px;
-      font-size: 11px;
-      color: var(--champagne-soft);
-      text-align: center;
-      line-height: 1.8;
-    }
-
-    @media (max-width: 600px) {
-      .brand-name { font-size: 18px; }
-      .compass-inner { width: 160px; height: 160px; }
-      .hub-grid { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
+/* 📱 MOBILE FRIENDLY */
+@media (max-width: 600px) {
+  .compass { width: 140px; }
+  .enter-circle { width: 190px; height: 190px; }
+  .scanner-row { flex-direction: column; gap: 12px; }
+  .atlas-symbol { font-size: 80px; }
+  .sign-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
 </head>
 <body>
-  <div class="stars-bg">
-    <div class="star" style="top: 8%; left: 12%;"></div>
-    <div class="star" style="top: 15%; left: 85%;"></div>
-    <div class="star" style="top: 30%; left: 5%;"></div>
-    <div class="star" style="top: 45%; left: 70%;"></div>
-    <div class="star" style="top: 60%; left: 20%;"></div>
-    <div class="star" style="top: 75%; left: 90%;"></div>
-    <div class="star" style="top: 22%; left: 40%;"></div>
-    <div class="star" style="top: 55%; left: 50%;"></div>
+
+<!-- ✨ STARS -->
+<div class="stars">
+  <div class="star" style="width:2px;height:2px;top:8%;left:12%;"></div>
+  <div class="star" style="width:3px;height:3px;top:15%;left:85%;animation-delay:1s;"></div>
+  <div class="star" style="width:2px;height:2px;top:30%;left:5%;animation-delay:2s;"></div>
+  <div class="star" style="width:2px;height:2px;top:45%;left:70%;animation-delay:0.5s;"></div>
+  <div class="star" style="width:3px;height:3px;top:60%;left:20%;animation-delay:1.5s;"></div>
+  <div class="star" style="width:2px;height:2px;top:75%;left:90%;animation-delay:3s;"></div>
+  <div class="star" style="width:2px;height:2px;top:12%;left:30%;animation-delay:1.2s;"></div>
+  <div class="star" style="width:3px;height:3px;top:80%;left:65%;animation-delay:2.8s;"></div>
+</div>
+
+<!-- 🌫️ MIST -->
+<div class="mist"></div>
+
+<!-- === FIRST SCREEN — LOGO RIGHT WAY ROUND === -->
+<div id="portal">
+  <div class="logo-wrap">
+    <!-- ✅ CORRECTED COMPASS — N FACING RIGHT WAY -->
+    <svg class="compass" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#E8D4B0"/><stop offset="50%" stop-color="#C8A97E"/><stop offset="100%" stop-color="#8B5A3C"/>
+        </linearGradient>
+        <linearGradient id="coralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#B87355"/><stop offset="100%" stop-color="#8B5A3C"/>
+        </linearGradient>
+        <filter id="g">
+          <feGaussianBlur stdDeviation="2.5"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="url(#coralGrad)" stroke-width="4" filter="url(#g)"/>
+      <polygon points="100,10 107,42 93,42" fill="url(#coralGrad)" filter="url(#g)"/>
+      <polygon points="190,100 158,107 158,93" fill="url(#coralGrad)" filter="url(#g)"/>
+      <polygon points="100,190 107,158 93,158" fill="url(#coralGrad)" filter="url(#g)"/>
+      <polygon points="10,100 42,107 42,93" fill="url(#coralGrad)" filter="url(#g)"/>
+      <!-- ✅ N — NOT BACKWARDS ANYMORE -->
+      <path d="M70,55 L70,145 L85,145 L115,72 L115,145 L130,145 L130,55 L115,55 L85,128 L85,55 Z" fill="url(#gold)" filter="url(#g)"/>
+    </svg>
+    <h1 class="brand">NORTHSTAR</h1>
+    <p class="brand-sub">COLLECTION</p>
   </div>
 
-  <div class="glass-sanctuary" id="portalScreen">
-    <h1 class="brand-name">NORTHSTAR COLLECTIVE</h1>
-    <p class="brand-sub">TRUE NORTH PATHWAY</p>
-
-    <div class="portal-frame" id="portalBox" onclick="enterPortal()">
-      <div class="compass-inner">
-        <svg class="compass-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="champagneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#E5C999" />
-              <stop offset="50%" stop-color="#D4B88A" />
-              <stop offset="100%" stop-color="#B87355" />
-            </linearGradient>
-          </defs>
-          <circle cx="100" cy="100" r="90" fill="none" stroke="url(#champagneGrad)" stroke-width="6"/>
-          <circle cx="100" cy="100" r="70" fill="none" stroke="url(#champagneGrad)" stroke-width="2" opacity="0.6"/>
-          <polygon points="100,10 110,50 100,40 90,50" fill="url(#champagneGrad)"/>
-          <polygon points="100,190 110,150 100,160 90,150" fill="url(#champagneGrad)"/>
-          <polygon points="10,100 50,110 40,100 50,90" fill="url(#champagneGrad)"/>
-          <polygon points="190,100 150,110 160,100 150,90" fill="url(#champagneGrad)"/>
-          <text x="100" y="120" font-size="90" font-weight="bold" text-anchor="middle" fill="url(#champagneGrad)" font-family="Georgia">N</text>
-        </svg>
-      </div>
-    </div>
-
-    <div class="portal-quote">
-      <p>"The longest journey is the search for one's true self."</p>
-      <p style="margin-top: 8px; font-size: 13px;">✦ TOUCH THE COMPASS TO BEGIN ✦</p>
-    </div>
-
-    <button class="enter-btn" onclick="enterPortal()">✦ STEP THROUGH THE PORTAL ✦</button>
+  <div class="mission-box">
+    <h2>✦ TRUE NORTH MISSION ✦</h2>
+    <p>Guiding every soul home to themselves<br>Immersive • Interactive • Helpful<br><br>Built from love, for all souls</p>
   </div>
 
-  <div class="mountain-dashboard" id="mainHub">
-    <div class="mountain-bg">
-      <h2 class="pathway-title">TRUE NORTH PATHWAY</h2>
-      <div class="genie-figure">🧞‍♀️</div>
-    </div>
+  <div class="enter-circle" onclick="goIn()">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gold2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#E8D4B0"/><stop offset="50%" stop-color="#C8A97E"/><stop offset="100%" stop-color="#8B5A3C"/>
+        </linearGradient>
+        <linearGradient id="coral2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#B87355"/><stop offset="100%" stop-color="#8B5A3C"/>
+        </linearGradient>
+      </defs>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="url(#coral2)" stroke-width="4"/>
+      <polygon points="100,10 107,42 93,42" fill="url(#coral2)"/>
+      <polygon points="190,100 158,107 158,93" fill="url(#coral2)"/>
+      <polygon points="100,190 107,158 93,158" fill="url(#coral2)"/>
+      <polygon points="10,100 42,107 42,93" fill="url(#coral2)"/>
+      <path d="M70,55 L70,145 L85,145 L115,72 L115,145 L130,145 L130,55 L115,55 L85,128 L85,55 Z" fill="url(#gold2)"/>
+    </svg>
+  </div>
+  <p class="enter-text" onclick="goIn()">✦ CLICK TO BEGIN YOUR JOURNEY ✦</p>
+</div>
 
-    <div class="hub-grid">
-      <div class="hub-card" onclick="alert('Teen Hub coming soon!')">
-        <h3>⭐ Teen Hub</h3>
-        <p>Safe space for growth</p>
-      </div>
-      <div class="hub-card" onclick="alert('Men\'s Hub coming soon!')">
-        <h3>⚡ Men's Hub</h3>
-        <p>Healing & purpose</p>
-      </div>
-      <div class="hub-card" onclick="alert('Family Hub coming soon!')">
-        <h3>🏡 Family Hub</h3>
-        <p>Home & connection</p>
-      </div>
-      <div class="hub-card" onclick="alert('Wellness coming soon!')">
-        <h3>✨ Wellness</h3>
-        <p>Mind body spirit</p>
-      </div>
-      <div class="hub-card" onclick="alert('Journal coming soon!')">
-        <h3>📓 Journal</h3>
-        <p>Release & reflect</p>
-      </div>
-      <div class="hub-card" onclick="alert('Shop coming soon!')">
-        <h3>🛒 Shop</h3>
-        <p>Curated resources</p>
-      </div>
-      <div class="hub-card" onclick="alert('Schedule coming soon!')">
-        <h3>📅 Schedule</h3>
-        <p>Plan your days</p>
-      </div>
-      <div class="hub-card" onclick="alert('Brain Dump coming soon!')">
-        <h3>🗣️ Brain Dump</h3>
-        <p>Clear your mind</p>
-      </div>
-    </div>
+<!-- === SECOND SCREEN — MOUNTAIN, ATLAS, ALL CLICKABLE === -->
+<div id="pathway">
+  <div class="path-header">
+    <h2>TRUE NORTH PATHWAY</h2>
+    <p>Immersive • Interactive • Helpful</p>
+  </div>
 
-    <div style="text-align: center; padding-bottom: 30px;">
-      <span class="back-link" onclick="goBack()">← Back to Portal</span>
+  <div class="scanner-row">
+    <div class="scan-card blue" onclick="scanOpen('TRI Scanner')">
+      <div class="scan-icon">🔍</div><div>TRI Scanner</div>
+    </div>
+    <div class="scan-card green" onclick="scanOpen('Toxin Scanner')">
+      <div class="scan-icon">🌿</div><div>Toxin Scanner</div>
     </div>
   </div>
 
-  <div class="disclaimer">
-    © 2026 Northstar Collective — Created with love by Kassie & family.<br>
-    All advice, resources and pathways are for guidance and inspiration only. 
-    Built from lived experience — for every soul that's ever felt lost. You are seen. You are loved. You belong.
+  <div class="atlas-box">
+    <div class="atlas-glow"></div>
+    <div class="atlas-symbol">✧</div>
+    <div class="atlas-label">ATLAS — YOUR GUIDE</div>
   </div>
 
-  <script>
-    function enterPortal() {
-      const portal = document.getElementById('portalScreen');
-      const hub = document.getElementById('mainHub');
-      
-      portal.style.opacity = '0';
-      portal.style.transition = 'opacity 0.6s ease';
-      
-      setTimeout(() => {
-        portal.style.display = 'none';
-        hub.classList.add('show');
-        window.scrollTo(0, 0);
-      }, 600);
-    }
+  <div class="sign-grid">
+    <button class="sign-btn" onclick="zoneOpen('Teen Hub')">Teen Hub</button>
+    <button class="sign-btn" onclick="zoneOpen('Men\'s Zone')">Men's Zone</button>
+    <button class="sign-btn" onclick="zoneOpen('Family Hub')">Family Hub</button>
+    <button class="sign-btn" onclick="zoneOpen('Wellness')">Wellness</button>
+    <button class="sign-btn" onclick="zoneOpen('Journal')">Journal</button>
+    <button class="sign-btn" onclick="zoneOpen('Shop')">Shop</button>
+    <button class="sign-btn" onclick="zoneOpen('Schedule')">Schedule</button>
+    <button class="sign-btn" onclick="zoneOpen('Brain Dump')">Brain Dump</button>
+  </div>
 
-    function goBack() {
-      const portal = document.getElementById('portalScreen');
-      const hub = document.getElementById('mainHub');
-      
-      hub.classList.remove('show');
-      setTimeout(() => {
-        portal.style.display = 'block';
-        portal.style.opacity = '1';
-      }, 300);
-    }
-  </script>
+  <span class="back-link" onclick="goBack()">← Back to Portal</span>
+
+  <p class="notes">
+    © 2026 Northstar Collection — Created with love by Kassie & family.<br>
+    All guidance for inspiration only — built from lived experience, not professional advice.
+    Always seek professional support for health, medical or legal matters. You are seen. You are loved. You belong.
+  </p>
+</div>
+
+<script>
+function goIn() {
+  document.getElementById('portal').classList.add('fade-away');
+  setTimeout(() => { document.getElementById('pathway').classList.add('visible'); }, 700);
+}
+function goBack() {
+  document.getElementById('pathway').classList.remove('visible');
+  setTimeout(() => { document.getElementById('portal').classList.remove('fade-away'); }, 700);
+}
+function scanOpen(name) { alert('✦ ' + name + ' ✦\\n\\nOpening your magical guide...\\n\\nComing soon.'); }
+function zoneOpen(name) { alert('✦ ' + name + ' ✦\\n\\nEntering your sacred space...\\n\\nComing soon.'); }
+</script>
+
 </body>
 </html>
