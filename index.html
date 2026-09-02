@@ -1,460 +1,500 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Northstar Collection — True North Pathway</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Northstar Collective — True North</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{
-  --midnight-sky: #0A0F1A;
-  --deep-mountain: #121A29;
-  --glass: rgba(18, 26, 41, 0.88);
-  --gb: rgba(255, 154, 118, 0.35);
-  --champagne: #E5C594;
-  --champagne-glow: rgba(229, 197, 148, 0.65);
-  --coral: #FF9A76;
-  --coral-glow: rgba(255, 154, 118, 0.55);
-  --coral-alert: #DC2626;
-  --amber: #D4A574;
-  --gold: #FFD700;
-  --text: #F8F9FA;
-  --dim: #9090b0;
-  --r: 28px;
-}
-html,body{height:100%;overflow:hidden}
-body{background:linear-gradient(180deg, #05070E 0%, #0F172A 40%, #1E293B 100%);color:var(--text);font-family:'Georgia','Segoe UI',serif;position:fixed;width:100%;height:100%}
-
-#smokeCanvas{position:fixed;inset:0;pointer-events:none;z-index:1}
-
-.mountain-road-bg{
-  position:fixed;bottom:0;left:0;width:100%;height:60%;
-  background: radial-gradient(ellipse at 50% 0%, rgba(255,154,118,0.2) 0%, transparent 75%),
-              linear-gradient(to top, rgba(10,15,26,0.98) 0%, rgba(15,23,42,0.75) 50%, transparent 100%);
-  pointer-events:none;z-index:2;
+:root {
+  --midnight: #0A0F2E;
+  --deep-space: #050714;
+  --gold: #E8C872;
+  --champagne: #F8E8C8;
+  --coral: #E89868;
+  --soft-pink: #FFD4E8;
+  --pink-glow: rgba(255, 180, 220, 0.35);
+  --gold-glow: rgba(232, 200, 114, 0.25);
+  --coral-glow: rgba(232, 152, 104, 0.2);
+  --sos-red: #FF4444;
+  --wood: #8B5A2B;
+  --wood-dark: #5C3A1D;
+  --wood-light: #D4A574;
+  --glass: rgba(255, 255, 255, 0.18);
+  --glass-border: rgba(255, 255, 255, 0.35);
 }
 
-.screen{position:fixed;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;padding:16px}
-.screen.active{display:flex;animation:si .5s ease}@keyframes si{from{opacity:0}to{opacity:1}}
-.screen.fade-out{animation:so .6s ease forwards}@keyframes so{from{opacity:1}to{opacity:0}}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Georgia, 'Times New Roman', serif; }
+body { background: var(--deep-space); color: var(--gold); min-height: 100vh; overflow-x: hidden; }
 
-.app-wrapper{position:relative;z-index:10;width:100%;max-width:440px;margin:0 auto}
-
-.glass-sanctuary{
-  background: linear-gradient(180deg, rgba(15,23,42,0.92) 0%, rgba(30,41,59,0.97) 100%);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1.5px solid var(--gb);
-  border-radius: var(--r);
-  padding: 26px 20px;
-  box-shadow: 0 50px 100px rgba(0,0,0,0.95), 0 0 60px var(--coral-glow), inset 0 1px 0 rgba(255,255,255,0.12);
-  position: relative;
-  overflow: hidden;
-  max-height: 86vh;
-  overflow-y: auto;
+/* ====================================== */
+/* 🌀 SMOKE PORTAL — THE GATEWAY — PINK → CORAL → GOLD SWIRL */
+/* ====================================== */
+.portal-overlay {
+  position: fixed; inset: 0; z-index: 95; pointer-events: none; opacity: 0; transition: opacity 1.5s ease;
+  display: flex; align-items: center; justify-content: center; background: rgba(5,7,20,0.85);
+}
+.portal-overlay.active { opacity: 1; pointer-events: auto; }
+.portal-ring {
+  position: relative; width: 340px; height: 340px; border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 70px var(--pink-glow),
+    0 0 120px var(--coral-glow),
+    inset 0 0 80px var(--pink-glow),
+    inset 0 0 50px var(--gold-glow);
+  display: flex; align-items: center; justify-content: center;
+}
+.portal-wisp {
+  position: absolute; border-radius: 50%; filter: blur(70px);
+  animation: portalSwirl 10s infinite linear;
+}
+.portal-wisp.pink {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255, 180, 220, 0.45), transparent 60%);
+  animation-delay: 0s;
+}
+.portal-wisp.coral {
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(232, 152, 104, 0.4), transparent 60%);
+  animation-delay: 3s; animation-direction: reverse;
+}
+.portal-wisp.gold {
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(232, 200, 114, 0.35), transparent 60%);
+  animation-delay: 6s;
+}
+@keyframes portalSwirl {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.portal-center {
+  width: 110px; height: 110px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,230,240,0.8));
+  box-shadow: 0 0 50px white, 0 0 80px var(--soft-pink);
+}
+.portal-text {
+  margin-top: 40px; font-size: 20px; color: var(--champagne); letter-spacing: 4px;
+  animation: portalPulse 2s infinite alternate;
+}
+@keyframes portalPulse {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
 }
 
-.northstar-branding{text-align:center;margin-bottom:10px}
-.northstar-logo-mark{width:64px;height:64px;margin:0 auto 6px;filter:drop-shadow(0 0 20px var(--coral-glow))}
-.northstar-logo-mark svg{width:100%;height:100%}
+/* ====================================== */
+/* SCREEN 1 — LOGO + MISSION */
+/* ====================================== */
+#logo-screen {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at top, rgba(80, 40, 60, 0.35), transparent 60%),
+              radial-gradient(ellipse at center, var(--midnight), var(--deep-space));
+  transition: opacity 1.5s ease, transform 1.5s ease; cursor: pointer;
+}
+#logo-screen.fade-out { opacity: 0; transform: scale(1.08); pointer-events: none; }
+.ns-logo {
+  font-size: 110px; font-weight: 200; letter-spacing: 18px; color: var(--gold);
+  text-shadow: 0 0 50px var(--gold-glow), 0 0 100px rgba(232, 200, 114, 0.4);
+  margin-bottom: 30px;
+  animation: logoBreathe 4s infinite alternate ease-in-out;
+}
+@keyframes logoBreathe {
+  0% { text-shadow: 0 0 40px var(--gold-glow), 0 0 70px rgba(232, 200, 114, 0.3); }
+  100% { text-shadow: 0 0 60px var(--gold-glow), 0 0 110px rgba(232, 200, 114, 0.5); }
+}
+.mission-text {
+  font-size: 20px; letter-spacing: 5px; color: var(--coral); text-align: center;
+  line-height: 2; max-width: 520px; opacity: 0.95;
+}
+.tap-prompt {
+  margin-top: 50px; font-size: 16px; color: var(--soft-pink); letter-spacing: 3px;
+  animation: pulse 2.5s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
 
-.brand-name{font-size:19px;letter-spacing:4px;color:var(--champagne);font-weight:600;text-transform:uppercase;text-shadow:0 0 15px var(--champagne-glow)}
-.brand-sub{font-size:8.5px;letter-spacing:5px;color:var(--dim);text-transform:uppercase;margin-top:2px}
-
-/* PORTAL FRAME */
-.portal-frame{
-  width:100%;min-height:240px;border-radius:22px;
-  background:radial-gradient(circle at 50% 45%, rgba(255,154,118,0.22) 0%, rgba(10,15,26,0.92) 70%),
-             linear-gradient(135deg, rgba(212,165,116,0.12), rgba(255,154,118,0.06));
+/* ====================================== */
+/* SCREEN 2 — TRI-SCANNER + 🧭 COMPASS TO ENTER */
+/* ====================================== */
+#scanner-screen {
+  position: fixed; inset: 0; z-index: 90;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at top, rgba(80, 40, 60, 0.35), transparent 60%),
+              radial-gradient(ellipse at center, var(--midnight), var(--deep-space));
+  opacity: 0; pointer-events: none; transition: opacity 1.5s ease;
+}
+#scanner-screen.active { opacity: 1; pointer-events: auto; }
+.scanner-frame {
+  position: relative; width: 290px; height: 370px; border-radius: 30px;
   border: 2px solid transparent;
-  border-image: linear-gradient(135deg, var(--amber), var(--coral), var(--champagne)) 1;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:20px 16px;margin:14px 0;
-  box-shadow:0 0 50px var(--coral-glow), inset 0 0 40px rgba(255,154,118,0.12);
-  cursor:pointer;position:relative;transition:all 0.5s ease;
+  background: linear-gradient(var(--deep-space), var(--deep-space)) padding-box,
+              linear-gradient(135deg, var(--soft-pink), var(--coral), var(--champagne)) border-box;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 70px var(--pink-glow), 0 0 140px var(--coral-glow);
+  margin-bottom: 35px; overflow: hidden;
 }
-.portal-frame.dissolving{transform:scale(1.12);filter:blur(16px);opacity:0}
-
-.portal-quote{
-  font-size:13.5px;font-style:italic;color:var(--coral);text-align:center;line-height:1.6;max-width:280px;
-  text-shadow:0 0 20px var(--coral-glow);margin-top:8px;
+.scanner-inner {
+  width: 250px; height: 330px; border-radius: 24px;
+  background: radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 20px; text-align: center;
 }
-.portal-hint{margin-top:12px;font-size:9px;letter-spacing:2.5px;color:var(--champagne);text-transform:uppercase;font-weight:600}
-
-.main-title{
-  font-size:20px;text-align:center;background:linear-gradient(90deg, var(--champagne), var(--coral));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  letter-spacing:2px;margin-bottom:4px;text-transform:uppercase;
+.scan-line {
+  position: absolute; left: 5%; width: 90%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--champagne), transparent);
+  top: 8%; animation: scanMove 3s infinite ease-in-out;
+  box-shadow: 0 0 20px var(--champagne);
 }
-.sub-heading{text-align:center;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:var(--dim);margin-bottom:14px;opacity:0.8}
-
-/* PATHWAY GRID */
-.pathway-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
-.pathway-sign{
-  background:linear-gradient(145deg, rgba(30,41,59,0.8), rgba(15,23,42,0.95));
-  border:1px solid rgba(255,154,118,0.3);border-radius:16px;padding:14px 12px;
-  cursor:pointer;transition:all 0.3s ease;text-align:left;position:relative;overflow:hidden;
+@keyframes scanMove {
+  0% { top: 8%; opacity: 0.5; }
+  50% { top: 92%; opacity: 1; }
+  100% { top: 8%; opacity: 0.5; }
 }
-.pathway-sign:hover{
-  border-color:var(--coral);
-  background:rgba(255,154,118,0.15);
-  box-shadow:0 0 30px var(--coral-glow);
-  transform: translateY(-2px);
+.trinity-title { font-size: 28px; color: var(--gold); letter-spacing: 5px; margin-bottom: 25px; }
+.truth-item { font-size: 15px; color: var(--coral); margin: 12px 0; letter-spacing: 1px; opacity: 0; animation: fadeIn 1.5s forwards; }
+.truth-item:nth-child(2) { animation-delay: 0.5s; }
+.truth-item:nth-child(3) { animation-delay: 1.0s; }
+.truth-item:nth-child(4) { animation-delay: 1.5s; }
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* 🧭 COMPASS — TO ENTER THE PATHWAY */
+.compass-container {
+  margin-top: 45px; display: flex; flex-direction: column; align-items: center; gap: 15px;
+  cursor: pointer;
 }
-.sign-icon{font-size:22px;margin-bottom:4px;filter:drop-shadow(0 0 10px var(--coral-glow))}
-.sign-title{font-size:12.5px;color:var(--coral);margin-bottom:2px;font-weight:600}
-.sign-desc{font-size:9px;color:var(--dim);line-height:1.4}
-
-.btn-primary{
-  width:100%;background:linear-gradient(135deg, rgba(212,165,116,0.35), rgba(255,154,118,0.25));
-  border:1px solid var(--coral);color:var(--champagne);padding:13px;border-radius:14px;
-  font-size:11px;letter-spacing:2px;cursor:pointer;transition:all 0.3s ease;text-align:center;margin-top:10px;text-transform:uppercase;font-weight:600;
-  box-shadow: 0 0 20px var(--coral-glow);
+.compass {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(232, 200, 114, 0.18), rgba(255, 180, 220, 0.18));
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 35px var(--gold-glow), inset 0 0 25px var(--pink-glow);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  animation: compassGlow 3s infinite alternate ease-in-out;
 }
-.btn-primary:hover{background:linear-gradient(90deg, var(--coral), var(--champagne));color:#05070E;box-shadow:0 0 35px var(--coral-glow)}
-
-.back-nav{font-size:11px;color:var(--dim);cursor:pointer;display:inline-block;margin-bottom:12px;text-decoration:underline}
-.back-nav:hover{color:var(--coral)}
-
-.content-card{
-  background:rgba(15,23,42,0.7);border:1px solid rgba(255,154,118,0.25);border-radius:16px;padding:14px;margin-bottom:10px;
+@keyframes compassGlow {
+  0% { box-shadow: 0 0 35px var(--gold-glow), inset 0 0 25px var(--pink-glow); }
+  100% { box-shadow: 0 0 50px var(--coral-glow), inset 0 0 35px var(--gold-glow); }
 }
-.content-card h3{color:var(--coral);font-size:13.5px;margin-bottom:6px}
-.content-card p{font-size:10.5px;color:var(--dim);line-height:1.6;margin-bottom:6px}
-
-input,textarea,select{
-  width:100%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,154,118,0.3);border-radius:10px;
-  padding:10px;color:var(--text);font-size:11.5px;margin:6px 0;outline:none;
+.compass-needle {
+  position: absolute; width: 4px; height: 55px; background: linear-gradient(to bottom, var(--coral), var(--gold));
+  transform-origin: center center; animation: needleSpin 12s infinite linear; border-radius: 2px;
 }
-input:focus,textarea:focus,select:focus{border-color:var(--coral);box-shadow:0 0 12px var(--coral-glow)}
-
-/* WIDGET SPECIFIC STYLES */
-.wl-item{display:flex;align-items:center;background:rgba(0,0,0,0.4);border:1px solid rgba(255,154,118,0.15);border-radius:10px;padding:8px 10px;margin-bottom:6px;font-size:11px}
-.wl-item .wi{font-size:16px;margin-right:8px}
-.wl-item .wt{flex:1;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wl-item .wp{color:var(--gold);margin-right:8px;font-weight:600}
-.wl-item .wl-link{color:var(--coral);text-decoration:none;margin-right:8px;font-size:10px}
-.wl-item .cd{background:none;border:none;color:var(--dim);cursor:pointer;font-size:12px}
-.wl-item .cd:hover{color:var(--coral-alert)}
-
-.chore-item{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.4);border:1px solid rgba(255,154,118,0.15);border-radius:10px;padding:8px 10px;margin-bottom:6px;font-size:11px}
-.chore-btn{background:rgba(255,154,118,0.2);border:1px solid var(--coral);color:var(--champagne);padding:4px 8px;border-radius:6px;cursor:pointer;font-size:10px}
-
-/* STATUS BAR */
-.ground-bar{
-  position:fixed;bottom:0;left:0;right:0;background:rgba(10,15,26,0.95);backdrop-filter:blur(20px);
-  padding:10px 16px;display:flex;justify-content:space-between;align-items:center;
-  border-top:1px solid rgba(255,154,118,0.25);z-index:100;
+@keyframes needleSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
-.sos-button{background:var(--coral-alert);color:white;border:none;padding:6px 14px;border-radius:8px;font-weight:700;font-size:11px;cursor:pointer}
-.genie-indicator{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--dim)}
-.genie-pulse{width:8px;height:8px;border-radius:50%;background:var(--coral);animation:pulseGlow 2s infinite}
-@keyframes pulseGlow{0%,100%{opacity:1;box-shadow:0 0 12px var(--coral-glow)}50%{opacity:0.3}}
+.compass-center {
+  width: 14px; height: 14px; border-radius: 50%; background: var(--soft-pink); z-index: 1;
+  box-shadow: 0 0 12px var(--soft-pink);
+}
+.compass-text {
+  font-size: 18px; color: var(--gold); letter-spacing: 2px;
+}
+
+/* ====================================== */
+/* 🗻 GENIE MOUNTAIN PATHWAY — CINEMATIC WITH WOODEN SIGNS */
+/* ====================================== */
+#pathway-screen {
+  position: fixed; inset: 0; z-index: 80;
+  opacity: 0; pointer-events: none; transition: opacity 1.5s ease;
+  overflow-y: auto; padding-bottom: 100px;
+  /* 🎬 CINEMATIC MOUNTAIN BACKGROUND */
+  background: linear-gradient(180deg, 
+    rgba(10, 25, 60, 0.6) 0%, 
+    rgba(5, 15, 40, 0.7) 40%,
+    rgba(5, 10, 30, 0.85) 100%),
+    url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=90') center/cover no-repeat fixed;
+}
+#pathway-screen.active { opacity: 1; pointer-events: auto; }
+
+/* 🪵 WOODEN SIGNS ALONG THE PATHWAY */
+.pathway-signs {
+  position: relative; width: 100%; max-width: 500px; margin: 0 auto; padding: 20px;
+}
+.wood-sign {
+  position: relative; background: linear-gradient(135deg, var(--wood-light), var(--wood), var(--wood-dark));
+  border: 3px solid var(--wood-dark); border-radius: 6px;
+  padding: 15px 20px; margin: 30px 0;
+  box-shadow: 
+    4px 6px 12px rgba(0,0,0,0.4),
+    inset 0 2px 4px rgba(255,255,255,0.2),
+    inset 0 -2px 4px rgba(0,0,0,0.3);
+  transform: rotate(-1deg);
+  cursor: pointer; transition: all 0.3s ease;
+}
+.wood-sign:nth-child(even) { transform: rotate(1deg); }
+.wood-sign:hover {
+  transform: rotate(0deg) scale(1.03);
+  box-shadow: 
+    6px 8px 16px rgba(0,0,0,0.5),
+    inset 0 2px 4px rgba(255,255,255,0.25),
+    0 0 20px var(--gold-glow);
+}
+.wood-sign::before {
+  content: ''; position: absolute; left: 25px; bottom: -25px;
+  width: 8px; height: 35px; background: linear-gradient(to bottom, var(--wood), var(--wood-dark));
+  border-radius: 0 0 3px 3px; box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+.sign-title { font-size: 20px; color: var(--champagne); letter-spacing: 2px; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+.sign-sub { font-size: 13px; color: #F5DEB3; opacity: 0.85; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); }
+
+/* Top Nav */
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; background: rgba(10, 15, 46, 0.75); backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(232, 200, 114, 0.12);
+  position: sticky; top: 0; z-index: 10;
+}
+.top-logo {
+  width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--gold);
+}
+.top-title { font-size: 24px; color: var(--gold); letter-spacing: 2px; }
+.top-menu { font-size: 26px; color: var(--gold); cursor: pointer; }
+
+/* Hero Section — Pathway Begins */
+.hero-section {
+  margin: 20px 24px; border-radius: 28px; padding: 70px 28px 30px;
+  background: rgba(10, 20, 50, 0.35); backdrop-filter: blur(8px);
+  border: 1px solid rgba(232, 200, 114, 0.15); min-height: 300px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  position: relative; overflow: hidden;
+}
+.hero-title { font-size: 44px; color: var(--gold); letter-spacing: 4px; margin-bottom: 12px; }
+.hero-sub { font-size: 20px; color: var(--coral); margin-bottom: 18px; }
+.hero-quote { font-size: 16px; color: var(--champagne); font-style: italic; opacity: 0.85; max-width: 420px; line-height: 1.8; }
+.hero-dots { display: flex; gap: 10px; margin-top: 25px; }
+.hero-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(232, 200, 114, 0.25); }
+.hero-dot.active { background: var(--gold); box-shadow: 0 0 12px var(--gold-glow); }
+
+/* 💎 GLASS GENIE — ATLAS — CRYSTAL SPIRIT GUIDE */
+.genie-atlas {
+  position: absolute; right: 25px; top: 320px;
+  width: 105px; height: 105px; border-radius: 50%;
+  /* ✨ TRANSLUCENT GLASS — NOT A BLOB */
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 230, 240, 0.2) 40%,
+    rgba(255, 180, 220, 0.25) 70%,
+    rgba(232, 200, 114, 0.15) 100%);
+  backdrop-filter: blur(15px);
+  border: 2px solid var(--glass-border);
+  box-shadow:
+    0 0 50px rgba(255, 180, 220, 0.4),
+    0 0 90px rgba(232, 200, 114, 0.25),
+    inset 0 0 35px rgba(255, 255, 255, 0.3);
+  cursor: pointer; animation: genieFloat 6s infinite ease-in-out;
+  z-index: 10;
+}
+@keyframes genieFloat {
+  0%,100% { transform: translateY(0) rotate(5deg); }
+  50% { transform: translateY(-20px) rotate(-5deg); }
+}
+.genie-heart {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 42px; height: 42px; border-radius: 50%;
+  background: radial-gradient(circle, #FFFFFF, rgba(255, 230, 240, 0.8));
+  box-shadow: 0 0 45px white, 0 0 70px rgba(255, 180, 220, 0.5);
+}
+.genie-shimmer {
+  position: absolute; top: 12%; left: 18%; width: 35%; height: 22%;
+  background: rgba(255, 255, 255, 0.45); border-radius: 50%;
+  transform: rotate(28deg); filter: blur(5px);
+}
+
+/* Quick Actions */
+.section-label {
+  padding: 0 24px; margin: 50px 0 20px; font-size: 28px; color: var(--gold); letter-spacing: 2px;
+}
+.quick-buttons {
+  display: flex; justify-content: center; gap: 14px; padding: 0 24px; flex-wrap: wrap;
+}
+.q-btn {
+  flex: 1; min-width: 150px; padding: 20px 24px; border-radius: 50px;
+  background: rgba(232, 200, 114, 0.06); border: 1px solid rgba(232, 200, 114, 0.2);
+  color: var(--gold); font-size: 17px; letter-spacing: 1px; cursor: pointer;
+  transition: all 0.3s ease;
+}
+.q-btn:hover { background: rgba(232, 200, 114, 0.12); border-color: var(--gold); }
+.q-btn.pink {
+  background: rgba(255, 180, 220, 0.12); border-color: rgba(255, 180, 220, 0.3);
+  color: var(--soft-pink);
+}
+.q-btn.pink:hover { background: rgba(255, 180, 220, 0.2); }
+
+/* HUBS — All 7 Rooms */
+.hubs-header {
+  padding: 0 24px; margin: 55px 0 25px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.hubs-header h3 { font-size: 28px; color: var(--gold); letter-spacing: 2px; }
+.see-all-link { color: var(--coral); cursor: pointer; font-size: 16px; }
+.hubs-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 0 24px;
+}
+.hub-card {
+  background: rgba(232, 200, 114, 0.04); border: 1px solid rgba(232, 200, 114, 0.12);
+  border-radius: 20px; padding: 28px 18px; cursor: pointer;
+  transition: all 0.35s ease;
+}
+.hub-card:hover {
+  border-color: var(--coral); background: rgba(232, 152, 104, 0.08);
+  transform: translateY(-6px);
+}
+.hub-icon {
+  width: 44px; height: 44px; margin-bottom: 15px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold), var(--coral));
+}
+.hub-card h4 { font-size: 19px; color: var(--gold); margin-bottom: 6px; }
+.hub-card p { font-size: 13px; color: var(--champagne); opacity: 0.6; line-height: 1.5; }
+
+/* SOS — Always Visible */
+.sos-button {
+  position: fixed; right: 24px; bottom: 105px;
+  width: 75px; height: 75px; border-radius: 50%;
+  background: linear-gradient(135deg, #FF5555, #CC2222);
+  border: none; color: white; font-size: 22px; font-weight: bold;
+  cursor: pointer; z-index: 70; box-shadow: 0 0 35px rgba(255, 60, 60, 0.5);
+  animation: sosPulse 2s infinite;
+}
+@keyframes sosPulse {
+  0%,100% { box-shadow: 0 0 35px rgba(255, 60, 60, 0.5); }
+  50% { box-shadow: 0 0 50px rgba(255, 60, 60, 0.7); }
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; width: 100%; height: 95px;
+  background: rgba(10, 15, 46, 0.92); backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(232, 200, 114, 0.12);
+  display: flex; justify-content: space-around; align-items: center;
+  z-index: 60; padding-bottom: 15px;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: var(--gold); opacity: 0.5; cursor: pointer; transition: all 0.25s ease;
+}
+.nav-item.active { opacity: 1; color: var(--coral); transform: translateY(-3px); }
+.nav-icon {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: linear-gradient(135deg, currentColor, var(--coral));
+}
+.nav-label { font-size: 12px; letter-spacing: 0.5px; }
+
+/* Disclaimer at bottom */
+.disclaimer-box {
+  margin: 40px 24px 30px; padding: 20px; border-radius: 16px;
+  background: rgba(232, 200, 114, 0.03); border: 1px solid rgba(232, 200, 114, 0.1);
+}
+.disclaimer-text {
+  font-size: 13px; color: var(--champagne); opacity: 0.7; line-height: 1.8;
+}
+
+/* Responsive — Works on phone */
+@media (max-width: 768px) {
+  .ns-logo { font-size: 72px; }
+  .mission-text { font-size: 16px; }
+  .hero-title { font-size: 32px; }
+  .hubs-grid { grid-template-columns: repeat(2, 1fr); }
+  .genie-atlas { width: 90px; height: 90px; right: 15px; top: 280px; }
+  .scanner-frame { width: 260px; height: 340px; }
+  .scanner-inner { width: 220px; height: 310px; }
+  .wood-sign { margin: 20px 0; padding: 12px 15px; }
+  .sign-title { font-size: 17px; }
+}
 </style>
 </head>
 <body>
 
-  <canvas id="smokeCanvas"></canvas>
-  <div class="mountain-road-bg"></div>
+<!-- ====================================== -->
+<!-- 🌀 SMOKE PORTAL — GATEWAY BETWEEN SCREENS -->
+<!-- ====================================== -->
+<div class="portal-overlay" id="portal">
+  <div class="portal-ring">
+    <div class="portal-wisp pink"></div>
+    <div class="portal-wisp coral"></div>
+    <div class="portal-wisp gold"></div>
+    <div class="portal-center"></div>
+  </div>
+  <p class="portal-text">✨ ENTERING THE PATHWAY ✨</p>
+</div>
 
-  <div class="screen active" id="screenPortal">
-    <div class="app-wrapper">
-      <div class="glass-sanctuary">
-        <div class="northstar-branding">
-          <div class="northstar-logo-mark">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#FF9A76" />
-                  <stop offset="50%" stop-color="#E5C594" />
-                  <stop offset="100%" stop-color="#D4A574" />
-                </linearGradient>
-              </defs>
-              <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGrad)" stroke-width="2.5"/>
-              <circle cx="50" cy="50" r="35" fill="none" stroke="url(#logoGrad)" stroke-width="1" opacity="0.6"/>
-              <polygon points="50,8 54,22 50,18 46,22" fill="url(#logoGrad)"/>
-              <text x="50" y="58" text-anchor="middle" font-family="Georgia" font-size="28" font-weight="bold" fill="url(#logoGrad)">N</text>
-            </svg>
-          </div>
-          <h1 class="brand-name">NORTHSTAR</h1>
-          <p class="brand-sub">COLLECTION</p>
-        </div>
+<!-- ====================================== -->
+<!-- SCREEN 1 — LOGO + MISSION -->
+<!-- ====================================== -->
+<div id="logo-screen" onclick="goToScanner()">
+  <div class="ns-logo">NS</div>
+  <p class="mission-text">NORTHSTAR COLLECTIVE<br><strong>FOR THE SHY, THE OVERLOOKED & THE FORGOTTEN</strong></p>
+  <p class="tap-prompt">✨ TAP TO BEGIN YOUR JOURNEY ✨</p>
+</div>
 
-        <div class="portal-frame" id="portalBox" onclick="enterPortal()">
-          <div style="font-size: 42px; margin-bottom: 6px; filter: drop-shadow(0 0 20px var(--coral-glow));">☽</div>
-          <p class="portal-quote">"The longest journey is the search for one's self."</p>
-          <span class="portal-hint">✦ Touch Logo to Dissolve & Enter ✦</span>
-        </div>
+<!-- ====================================== -->
+<!-- SCREEN 2 — TRI-SCANNER + 🧭 COMPASS TO ENTER -->
+<!-- ====================================== -->
+<div id="scanner-screen">
+  <div class="scanner-frame">
+    <div class="scan-line"></div>
+    <div class="scanner-inner">
+      <h3 class="trinity-title">TRI-SCANNER</h3>
+      <p class="truth-item">✨ TRUTH OF THE HEART — What you carry within</p>
+      <p class="truth-item">✨ TRUTH OF THE PATH — Where you are meant to walk</p>
+      <p class="truth-item">✨ TRUTH OF THE LIGHT — The magic you bring to the world</p>
+    </div>
+  </div>
+  <!-- 🧭 COMPASS — TAP TO ENTER PATHWAY -->
+  <div class="compass-container" onclick="goToPathway()">
+    <div class="compass">
+      <div class="compass-needle"></div>
+      <div class="compass-center"></div>
+    </div>
+    <p class="compass-text">🧭 FOLLOW YOUR TRUE NORTH 🧭</p>
+  </div>
+</div>
 
-        <h2 class="main-title">True North Pathway</h2>
-        <p class="sub-heading">Sanctuary for the Overlooked</p>
+<!-- ====================================== -->
+<!-- 🗻 GENIE MOUNTAIN PATHWAY — WOODEN SIGNS + ALL HUBS -->
+<!-- ====================================== -->
+<div id="pathway-screen">
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-logo">NS</div>
+    <span class="top-title">True North</span>
+    <span class="top-menu">☰</span>
+  </div>
 
-        <button class="btn-primary" onclick="enterPortal()">✨ Step Through Smoke Portal ➔</button>
-      </div>
+  <!-- Hero — Pathway Begins -->
+  <div class="hero-section">
+    <h2 class="hero-title">Genie Mountain Pathway</h2>
+    <p class="hero-sub">Walk Your Path with Atlas</p>
+    <p class="hero-quote">"The longest journey is the search for one's self."</p>
+    <div class="hero-dots">
+      <span class="hero-dot active"></span>
+      <span class="hero-dot"></span>
+      <span class="hero-dot"></span>
     </div>
   </div>
 
-  <div class="screen" id="screenMission">
-    <div class="app-wrapper">
-      <div class="glass-sanctuary">
-        <span class="back-nav" onclick="goTo('screenPortal')">← Back to Portal</span>
-        <p class="sub-heading" style="margin-bottom:4px;">FOUNDATIONAL PURPOSE</p>
-        <h2 class="main-title" style="font-size:18px; margin-bottom:14px;">Our Commitment</h2>
+  <!-- 💎 GLASS GENIE — ATLAS -->
+  <button class="genie-atlas" onclick="alert('✨ ATLAS — Your Spirit Guide ✨\\n\\nI am here. You are seen. You are never alone.\\n\\nHow may I help you find your way?')">
+    <div class="genie-shimmer"></div>
+    <div class="genie-heart"></div>
+  </button>
 
-        <div class="content-card">
-          <p>Everyone deserves to feel breathtaking. <strong>Northstar Collection</strong> was built for the ones who stand quietly — the ones whose voices do not always boom, and the forgotten people of our communities who have carried too much alone.</p>
-          <p>This is a living bridge: weaving family life, education, wellness, and community together under midnight glass and coral warmth to support you every step of the way.</p>
-        </div>
-
-        <button class="btn-primary" onclick="goTo('screenPathway')">⛰️ Enter Mountain Pathway ➔</button>
-      </div>
+  <!-- 🪵 WOODEN SIGNS ALONG THE PATHWAY -->
+  <div class="pathway-signs">
+    <div class="wood-sign" onclick="alert('🔮 TRI-SCANNER ✨\\n\\nRevealing who you truly are...\\n\\nComing Soon — Full Scan Experience')">
+      <h3 class="sign-title">🔮 TRI-SCANNER</h3>
+      <p class="sign-sub">Know your three truths</p>
     </div>
-  </div>
 
-  <div class="screen" id="screenPathway">
-    <div class="app-wrapper">
-      <div class="glass-sanctuary">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <p style="font-size:11.5px; color:var(--coral); letter-spacing:1.5px; font-weight:600;">⛰️ GENIE MOUNTAIN PATHWAY</p>
-          <span class="back-nav" onclick="goTo('screenMission')" style="margin:0;">← Purpose</span>
-        </div>
-        <p style="font-size:9.5px; color:var(--dim); margin-bottom:10px;">Select a sanctuary room along your path:</p>
-
-        <div class="pathway-grid">
-          <div class="pathway-sign" onclick="openRoom('genie')">
-            <div class="sign-icon">🧞</div>
-            <h3 class="sign-title">Genie Hub</h3>
-            <p class="sign-desc">Avatar, toxin scan & styling.</p>
-          </div>
-          <div class="pathway-sign" onclick="openRoom('family')">
-            <div class="sign-icon">👨‍👩‍👧‍👦</div>
-            <h3 class="sign-title">Family Hub</h3>
-            <p class="sign-desc">Calendar, chores & wishlists.</p>
-          </div>
-          <div class="pathway-sign" onclick="openRoom('wellness')">
-            <div class="sign-icon">🧠</div>
-            <h3 class="sign-title">Wellness</h3>
-            <p class="sign-desc">Health flows & calm.</p>
-          </div>
-          <div class="pathway-sign" onclick="openRoom('journal')">
-            <div class="sign-icon">📝</div>
-            <h3 class="sign-title">Brain Dump</h3>
-            <p class="sign-desc">Reflect & release.</p>
-          </div>
-        </div>
-      </div>
+    <div class="wood-sign" onclick="alert('🌟 MISSION ✨\\n\\nOur purpose. Your story.\\nFOR THE SHY, THE OVERLOOKED & THE FORGOTTEN\\n\\nComing Soon')">
+      <h3 class="sign-title">🌟 THE MISSION</h3>
+      <p class="sign-sub">Why we walk this path</p>
     </div>
-  </div>
 
-  <div class="screen" id="screenRoom">
-    <div class="app-wrapper">
-      <div class="glass-sanctuary">
-        <span class="back-nav" onclick="goTo('screenPathway')">← Back to Pathway Rooms</span>
-        <div id="roomContentDynamic"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ground-bar">
-    <div class="genie-indicator">
-      <div class="genie-pulse"></div>
-      <span>Atlas & Aura Active</span>
-    </div>
-    <button class="sos-button" onclick="triggerSOS()">SOS 999</button>
-  </div>
-
-  <script>
-    // Storage Helper
-    const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem('ns_'+k)) || d; } catch(e) { return d; } };
-    const lsSet = (k, v) => { try { localStorage.setItem('ns_'+k, JSON.stringify(v)); } catch(e) {} };
-
-    // Canvas Smoke Animation
-    const canvas = document.getElementById('smokeCanvas');
-    const ctx = canvas.getContext('2d');
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize);
-    resize();
-
-    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-
-    const particles = [];
-    for (let i = 0; i < 55; i++) {
-      particles.push({
-        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-        r: Math.random() * 140 + 70, vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25, alpha: Math.random() * 0.04 + 0.015
-      });
-    }
-
-    function renderSmoke() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.x += p.vx; p.y += p.vy;
-        let dx = mouseX - p.x, dy = mouseY - p.y, dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 260) { p.x += (dx / dist) * 0.2; p.y += (dy / dist) * 0.2; }
-        if (p.x < -100) p.x = canvas.width + 100; if (p.x > canvas.width + 100) p.x = -100;
-        if (p.y < -100) p.y = canvas.height + 100; if (p.y > canvas.height + 100) p.y = -100;
-
-        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-        grad.addColorStop(0, `rgba(255, 154, 118, ${p.alpha * 1.8})`);
-        grad.addColorStop(0.5, `rgba(229, 197, 148, ${p.alpha * 1.2})`);
-        grad.addColorStop(1, 'transparent');
-        ctx.fillStyle = grad;
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
-      });
-      requestAnimationFrame(renderSmoke);
-    }
-    renderSmoke();
-
-    function enterPortal() {
-      const portal = document.getElementById('portalBox');
-      portal.classList.add('dissolving');
-      particles.forEach(p => { p.r *= 1.5; });
-      setTimeout(() => {
-        portal.classList.remove('dissolving');
-        goTo('screenMission');
-      }, 500);
-    }
-
-    function goTo(screenId) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
-    }
-
-    function triggerSOS() {
-      alert("🚨 EMERGENCY SOS ACTIVATED:\n\n• 999 Services flagged\n• Box Breathing active: Inhale (4s) -> Hold (4s) -> Exhale (4s)\n• Responder audio log engaged.");
-    }
-
-    // Interactive Room Renderers
-    let wishlist = lsGet('wishlist', [
-      { name: "Boho Velvet Lounge Chairs", price: 180, icon: "🪑", link: "#" },
-      { name: "Pure Lemon Balm & Skullcap", price: 24, icon: "🌿", link: "#" }
-    ]);
-    let chores = lsGet('chores', [
-      { text: "Clear kitchen sink & counters", reward: "£3", done: false },
-      { text: "Tidy bootroom & shoes", reward: "£2", done: false }
-    ]);
-
-    function openRoom(type) {
-      goTo('screenRoom');
-      const container = document.getElementById('roomContentDynamic');
-      let html = '';
-
-      if(type === 'genie') {
-        html = `
-          <h3>🧞 Genie Hub & Toxin Scan</h3>
-          <p>Instant purity checks and custom aesthetic styling guides.</p>
-          <div class="content-card" style="margin-top:10px;">
-            <label style="font-size:10px; color:var(--champagne);">Quick Toxin & Ingredient Scan:</label>
-            <input type="text" id="toxinInput" placeholder="e.g., Parabens, artificial fragrance..." />
-            <button class="btn-primary" style="margin-top:6px;" onclick="runToxinScan()">Scan Ingredient ⚡</button>
-            <div id="toxinResult" style="font-size:11px; color:var(--dim); margin-top:8px;"></div>
-          </div>`;
-      } else if(type === 'family') {
-        html = `
-          <h3>👨‍👩‍👧‍👦 Family & Chores Hub</h3>
-          <p>Manage home-ed routines, kids' requests, and shared wishlists.</p>
-          <div class="content-card" style="margin-top:10px;">
-            <strong style="color:var(--champagne); font-size:12px;">Active Chores & Rewards</strong>
-            <div id="choreList" style="margin-top:6px;"></div>
-          </div>
-          <div class="content-card">
-            <strong style="color:var(--champagne); font-size:12px;">Wishlist & Event Registry</strong>
-            <input type="text" id="wlName" placeholder="Item name..." />
-            <input type="number" id="wlPrice" placeholder="Price (£)..." />
-            <button class="btn-primary" style="margin-top:4px;" onclick="addWishlistItem()">+ Add to Wishlist</button>
-            <div id="wlList" style="margin-top:8px;"></div>
-          </div>`;
-        setTimeout(() => { renderChores(); renderWishlist(); }, 50);
-      } else if(type === 'wellness') {
-        html = `
-          <h3>🧠 Wellness & Health Flows</h3>
-          <p>Pacing tools, soothing breathing frequencies, and grounded calm.</p>
-          <div class="content-card" style="margin-top:10px;">
-            <strong style="color:var(--champagne); font-size:12px;">Box Breathing Guide</strong>
-            <p style="margin-top:4px;">Tap below to start your 4-second soothing cycle.</p>
-            <button class="btn-primary" onclick="startBreathCycle()">Start Breathing Circle 🫁</button>
-            <div id="breathDisplay" style="text-align:center; font-size:13px; color:var(--coral); margin-top:8px; font-weight:600;"></div>
-          </div>`;
-      } else if(type === 'journal') {
-        html = `
-          <h3>📝 Brain Dump & Journal</h3>
-          <p>Clear your mind, process thoughts, and anchor your daily intentions.</p>
-          <div class="content-card" style="margin-top:10px;">
-            <textarea id="brainDumpText" placeholder="Write your thoughts, plans, or reflections here..."></textarea>
-            <button class="btn-primary" style="margin-top:6px;" onclick="saveJournalEntry()">Save Reflection ✨</button>
-            <div id="journalStatus" style="font-size:10px; color:var(--coral); margin-top:6px; text-align:center;"></div>
-          </div>`;
-      }
-
-      container.innerHTML = html;
-    }
-
-    function runToxinScan() {
-      const val = document.getElementById('toxinInput').value.trim();
-      const res = document.getElementById('toxinResult');
-      if(!val) { res.textContent = "Please enter an item or ingredient to scan."; return; }
-      res.innerHTML = `<span style="color:var(--gold)">✔ Verified Clean Botanical Source:</span> Recommended clean alternative loaded (Affiliate Commission Secured).`;
-    }
-
-    function renderChores() {
-      const list = document.getElementById('choreList');
-      if(!list) return;
-      list.innerHTML = chores.map((c, i) => `
-        <div class="chore-item">
-          <span style="${c.done?'text-decoration:line-through;opacity:0.6;':''}">${c.text} (${c.reward})</span>
-          <button class="chore-btn" onclick="toggleChore(${i})">${c.done ? 'Done ✓' : 'Claim'}</button>
-        </div>
-      `).join('');
-    }
-    function toggleChore(i) {
-      chores[i].done = !chores[i].done;
-      lsSet('chores', chores);
-      renderChores();
-    }
-
-    function renderWishlist() {
-      const list = document.getElementById('wlList');
-      if(!list) return;
-      list.innerHTML = wishlist.map((w, i) => `
-        <div class="wl-item">
-          <span class="wi">${w.icon}</span>
-          <span class="wt">${w.name}</span>
-          <span class="wp">£${w.price}</span>
-          <button class="cd" onclick="delWishlist(${i})">✕</button>
-        </div>
-      `).join('') || '<p style="color:var(--dim); font-size:10px;">No items yet.</p>';
-    }
-    function addWishlistItem() {
-      const name = document.getElementById('wlName').value.trim();
-      const price = document.getElementById('wlPrice').value || '0';
-      if(!name) return alert('Enter item name');
-      wishlist.unshift({ name, price: Number(price), icon: '🎁' });
-      lsSet('wishlist', wishlist);
-      document.getElementById('wlName').value = '';
-      document.getElementById('wlPrice').value = '';
-      renderWishlist();
-    }
-    function delWishlist(i) {
-      wishlist.splice(i, 1);
-      lsSet('wishlist', wishlist);
-      renderWishlist();
-    }
-
-    function startBreathCycle() {
-      const disp = document.getElementById('breathDisplay');
-      disp.textContent = "Inhale slowly (4s)...";
-      setTimeout(() => { disp.textContent = "Hold gently (4s)..."; }, 4000);
-      setTimeout(() => { disp.textContent = "Exhale and release (4s)..."; }, 8000);
-      setTimeout(() => { disp.textContent = "Cycle complete. You are grounded. ✨"; }, 12000);
-    }
-
-    function saveJournalEntry() {
-      const txt = document.getElementById('brainDumpText').value;
-      if(!txt.trim()) return alert('Write something first!');
-      lsSet('lastJournal', txt);
-      document.getElementById('journalStatus').textContent = "Reflection securely saved to your local sanctuary ✨";
-    }
-  </script>
-</body>
-</html>
+    <div class="wood-sign" onclick="alert('🛡️ SANCTUARY ✨\\n\\nYour safe haven. Rest. Breathe.\\n\\nComing Soon')">
+      <h3 class="sign-title">🛡️ SANCTUARY</h3>
+      <p class="sign-sub">Peace when you
