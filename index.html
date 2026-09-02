@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Northstar Collective</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --midnight-base: #070B12;
+      --glass-panel: rgba(15, 23, 42, 0.75);
+      --amber-gold: #F59E0B;
+      --coral-accent: #FF6F61;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      background: radial-gradient(circle at 50% 20%, #1E293B 0%, var(--midnight-base) 70%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+    }
+    .app-container { width: 100%; max-width: 440px; }
+    .luxury-card {
+      background: var(--glass-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 22px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .tab-btn {
+      flex: 1; padding: 10px; border-radius: 12px; background: var(--glass-panel);
+      color: var(--text-main); border: 1px solid rgba(245,158,11,0.3); font-weight: 600; cursor: pointer; font-size: 13px;
+    }
+    .tab-btn.active { background: var(--amber-gold); color: #070B12; }
+    .coral-amber-btn {
+      width: 100%; background: linear-gradient(135deg, var(--coral-accent), var(--amber-gold));
+      color: #070B12; border: none; border-radius: 14px; padding: 12px; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 10px;
+    }
+    .job-box { background: rgba(0,0,0,0.25); padding: 14px; border-radius: 14px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.06); }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="luxury-card" style="text-align: center;">
+      <div style="font-size: 40px; margin-bottom: 6px;">⭐</div>
+      <h1 style="color: var(--amber-gold); letter-spacing: 1.5px; font-size: 18px;">NORTHSTAR COLLECTIVE</h1>
+      <p style="color: var(--text-muted); font-size: 12px; margin-top: 4px;">Community Sanctuary & Micro-Economy</p>
+    </div>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+      <button class="tab-btn active" id="btnJobs" onclick="switchTab('jobs')">Odd Jobs & Escrow</button>
+      <button class="tab-btn" id="btnTiers" onclick="switchTab('tiers')">Business Ads (£)</button>
+    </div>
+
+    <div id="tabJobs" class="luxury-card">
+      <h3 style="color: var(--amber-gold); font-size: 16px; margin-bottom: 6px;">🤝 Neighborhood Micro-Jobs</h3>
+      <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 15px;">Funds locked safely in escrow until task is signed off.</p>
+      
+      <div class="job-box">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <strong>Lawn Mowing & Edging</strong>
+          <span style="color: var(--amber-gold); font-weight: 700;">£12.00</span>
+        </div>
+        <p style="font-size: 11px; color: var(--text-muted);">Status: In Escrow (Safe)</p>
+        <button class="coral-amber-btn" onclick="alert('Funds Released Successfully! ✓')">Sign Off & Release Funds</button>
+      </div>
+
+      <div style="margin-top: 20px; padding: 12px; border-radius: 12px; background: rgba(255,111,97,0.08); border: 1px solid rgba(255,111,97,0.2); text-align: center;">
+        <span style="font-size: 11px; color: var(--coral-accent); text-transform: uppercase; font-weight: 700;">Coming Soon</span>
+        <h4 style="font-size: 13px; color: var(--text-main); margin-top: 4px;">Atlas & Aura Roads Collections</h4>
+      </div>
+    </div>
+
+    <div id="tabTiers" class="luxury-card" style="display: none;">
+      <h3 style="color: var(--amber-gold); font-size: 16px; margin-bottom: 6px;">✨ Advertising Tiers</h3>
+      <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 15px;">Boost local visibility or showcase your luxury brand.</p>
+      <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; margin-bottom: 10px;">
+        <h4 style="font-size: 13px;">Standard Community</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Free — Basic local board access.</p>
+      </div>
+      <div style="background: rgba(245,158,11,0.08); padding: 12px; border-radius: 12px; margin-bottom: 10px; border: 1px solid rgba(245,158,11,0.2);">
+        <h4 style="font-size: 13px; color: var(--amber-gold);">Promoted Boost (£4.99/mo)</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Priority placement and extra visibility.</p>
+      </div>
+      <div style="background: rgba(255,111,97,0.08); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,111,97,0.3);">
+        <h4 style="font-size: 13px; color: var(--coral-accent);">Designer & Luxury Brand (£20+/mo)</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Exclusive high-end editorial showcase slots.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      if(tab === 'jobs') {
+        document.getElementById('tabJobs').style.display = 'block';
+        document.getElementById('tabTiers').style.display = 'none';
+        document.getElementById('btnJobs').classList.add('active');
+        document.getElementById('btnTiers').classList.remove('active');
+      } else {
+        document.getElementById('tabJobs').style.display = 'none';
+        document.getElementById('tabTiers').style.display = 'block';
+        document.getElementById('btnTiers').classList.add('active');
+        document.getElementById('btnJobs').classList.remove('active');
+      }
+    }
+  </script>
+</body>
+</html>
