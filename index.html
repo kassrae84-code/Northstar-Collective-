@@ -1,324 +1,419 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Northstar Collection — True North Pathway</title>
-<style>
-:root {
-  --midnight: #0A0F2E;
-  --deep: #121A3F;
-  --champagne: #E5C999;
-  --coral: #B87355;
-  --coral-glow: rgba(184, 115, 85, 0.6);
-  --blue: #5B9BD5;
-  --green: #6BBF8A;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Northstar Collection — True North Pathway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void-bg: #030806;
+      --champagne: #E5C594;
+      --champagne-glow: rgba(229, 197, 148, 0.6);
+      --glass-base: rgba(7, 21, 16, 0.95);
+      --glass-border: rgba(229, 197, 148, 0.4);
+      --text-main: #F4F5F7;
+      --text-muted: #9BA3A0;
+    }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  min-height: 100vh;
-  font-family: Georgia, serif;
-  background: linear-gradient(180deg, var(--midnight), var(--deep), #1A2450);
-  color: var(--champagne);
-  overflow-x: hidden;
-}
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
 
-/* ✨ TWINKLING STARS */
-.stars {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none; z-index: 1;
-}
-.star {
-  position: absolute; background: white; border-radius: 50%;
-  animation: twinkle 4s infinite alternate;
-}
-@keyframes twinkle {
-  0% { opacity: 0.15; }
-  100% { opacity: 1; }
-}
+    body {
+      background-color: var(--void-bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-/* 🌫️ FLOATING MIST — STILL MAGIC */
-.mist {
-  position: fixed; top: 0; left: 0; width: 200%; height: 100%;
-  background: radial-gradient(ellipse at 30% 80%, rgba(229,201,153,0.08), transparent 50%);
-  pointer-events: none; z-index: 2;
-  animation: mistMove 30s infinite alternate;
-}
-@keyframes mistMove {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-15%); }
-}
+    #smokeCanvas {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* === PORTAL SCREEN — LOGO RIGHT WAY ROUND === */
-#portal {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-  z-index: 20; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; padding: 24px;
-  transition: opacity 1.2s ease, transform 1.2s ease;
-}
-#portal.fade-away {
-  opacity: 0; transform: scale(1.05); pointer-events: none;
-}
+    .app-container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 420px;
+      padding: 16px;
+    }
 
-/* ✅ LOGO — PERFECT, NOT BACKWARDS */
-.logo-wrap {
-  text-align: center; margin-bottom: 20px;
-  animation: logoGlow 4s infinite alternate;
-}
-@keyframes logoGlow {
-  0% { filter: brightness(1); }
-  100% { filter: brightness(1.2) drop-shadow(0 0 30px var(--coral-glow)); }
-}
-.compass { width: 170px; height: auto; }
-.brand { font-size: 30px; color: var(--coral); letter-spacing: 6px; text-transform: uppercase; margin-top: 10px; }
-.brand-sub { font-size: 14px; color: var(--champagne); letter-spacing: 6px; text-transform: uppercase; opacity: 0.7; }
+    .glass-card {
+      background: var(--glass-base);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid var(--glass-border);
+      border-radius: 36px;
+      padding: 30px 24px;
+      box-shadow: 0 50px 100px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.6s ease;
+    }
 
-.mission-box {
-  background: rgba(20, 30, 60, 0.85); border: 2px solid var(--coral);
-  border-radius: 20px; padding: 28px; max-width: 440px; text-align: center;
-  box-shadow: 0 0 30px var(--coral-glow); margin-bottom: 35px;
-}
-.mission-box h2 { color: var(--coral); font-size: 15px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px; }
-.mission-box p { line-height: 1.8; text-transform: uppercase; font-size: 13px; opacity: 0.8; }
+    .view-screen { display: none; }
+    .view-screen.active { display: block; animation: fadeIn 0.6s ease forwards; }
 
-.enter-circle {
-  width: 220px; height: 220px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(40,50,100,0.9), rgba(15,20,50,0.95));
-  border: 3px solid var(--coral); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 50px var(--coral-glow); transition: all 0.5s ease;
-  animation: pulse 3s infinite alternate;
-}
-@keyframes pulse {
-  0% { box-shadow: 0 0 40px var(--coral-glow); }
-  100% { box-shadow: 0 0 70px var(--coral-glow); }
-}
-.enter-circle:hover { transform: scale(1.1); }
-.enter-circle svg { width: 120px; height: auto; }
-.enter-text {
-  color: var(--coral); font-size: 14px; letter-spacing: 4px; text-transform: uppercase;
-  margin-top: 25px; cursor: pointer; text-shadow: 0 0 15px var(--coral-glow);
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-/* === PATHWAY — MOUNTAIN, ATLAS, ALL CLICKABLE === */
-#pathway {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-  z-index: 10; opacity: 0; pointer-events: none;
-  transition: opacity 1.5s ease;
-  background:
-    linear-gradient(to top, rgba(10,15,40,0.85), rgba(5,8,20,0.75)),
-    url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat;
-  overflow-y: auto; padding: 20px; padding-top: 30px;
-}
-#pathway.visible { opacity: 1; pointer-events: auto; }
+    .brand-top {
+      text-align: center;
+      letter-spacing: 5px;
+      color: var(--champagne);
+      font-size: 11.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      opacity: 0.85;
+      text-shadow: 0 0 15px var(--champagne-glow);
+    }
 
-.path-header { text-align: center; margin-bottom: 25px; }
-.path-header h2 {
-  color: var(--coral); font-size: 26px; letter-spacing: 5px;
-  text-transform: uppercase; text-shadow: 0 0 20px var(--coral-glow);
-}
-.path-header p { font-size: 12px; text-transform: uppercase; opacity: 0.6; margin-top: 5px; }
+    /* Interactive Smoke Dissolving Logo Portal */
+    .portal-logo-box {
+      width: 100%;
+      height: 230px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(3,8,6,0.4) 0%, rgba(7,21,16,0.92) 100%), 
+                  radial-gradient(circle at 50% 45%, rgba(229,197,148,0.3) 0%, transparent 70%);
+      border: 1.5px solid var(--champagne);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 45px var(--champagne-glow);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.4s ease, filter 0.6s ease, opacity 0.6s ease;
+    }
 
-/* 🔵 SCANNERS — TOP, CLICKABLE */
-.scanner-row {
-  display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-bottom: 40px;
-}
-.scan-card {
-  padding: 18px 22px; border-radius: 16px; cursor: pointer;
-  text-align: center; text-transform: uppercase; font-weight: 600;
-  letter-spacing: 2px; font-size: 13px; transition: all 0.3s ease;
-}
-.scan-card.blue { border: 2px solid var(--blue); color: var(--blue); background: rgba(20,30,60,0.8); box-shadow: 0 0 20px rgba(91,155,213,0.3); }
-.scan-card.green { border: 2px solid var(--green); color: var(--green); background: rgba(20,30,60,0.8); box-shadow: 0 0 20px rgba(107,191,138,0.3); }
-.scan-card:hover { transform: scale(1.08); }
-.scan-icon { font-size: 28px; margin-bottom: 5px; }
+    .portal-logo-box:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 65px var(--champagne);
+    }
 
-/* 🧞‍♀️ ATLAS — GOLDEN SPIRIT, FLOATING, MAGIC */
-.atlas-box { text-align: center; margin: 30px 0 50px; position: relative; }
-.atlas-glow {
-  width: 200px; height: 250px; margin: 0 auto; border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(229,201,153,0.4), transparent 70%);
-  filter: blur(20px); position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
-  animation: atlasPulse 4s infinite alternate; z-index: 1;
-}
-@keyframes atlasPulse {
-  0% { opacity: 0.4; }
-  100% { opacity: 0.8; }
-}
-.atlas-symbol {
-  font-size: 110px; color: var(--champagne); opacity: 0.35;
-  filter: drop-shadow(0 0 50px var(--champagne));
-  animation: atlasFloat 5s infinite alternate; position: relative; z-index: 2;
-}
-@keyframes atlasFloat {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-20px); }
-}
-.atlas-label {
-  color: var(--coral); font-size: 13px; letter-spacing: 3px;
-  text-transform: uppercase; margin-top: 10px; position: relative; z-index: 2;
-}
+    .portal-logo-box.dissolving {
+      transform: scale(1.15);
+      filter: blur(12px);
+      opacity: 0;
+    }
 
-/* 🪵 SIGNPOSTS — ALL CLICKABLE */
-.sign-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 15px; max-width: 800px; margin: 0 auto 40px;
-}
-.sign-btn {
-  padding: 15px 10px; border-radius: 14px; border: 2px solid var(--coral);
-  background: rgba(20,30,60,0.85); color: var(--coral);
-  font-size: 12px; font-weight: 600; letter-spacing: 1px;
-  text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
-  box-shadow: 0 0 15px var(--coral-glow);
-}
-.sign-btn:hover { transform: scale(1.05); }
+    .portal-logo-box h3 {
+      font-size: 16.5px;
+      color: var(--champagne);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 20px var(--champagne-glow);
+    }
 
-.back-link {
-  color: var(--coral); font-size: 13px; letter-spacing: 3px;
-  text-transform: uppercase; cursor: pointer; display: block;
-  text-align: center; margin-top: 20px; text-shadow: 0 0 15px var(--coral-glow);
-}
+    .portal-logo-box p {
+      font-size: 12px;
+      color: var(--text-main);
+      font-style: italic;
+      line-height: 1.6;
+      max-width: 280px;
+    }
 
-.notes {
-  font-size: 10px; opacity: 0.5; text-align: center; margin-top: 30px; line-height: 1.6;
-}
+    .screen-title {
+      color: var(--champagne);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-align: center;
+      margin-bottom: 4px;
+      text-shadow: 0 0 20px var(--champagne-glow);
+    }
 
-/* 📱 MOBILE FRIENDLY */
-@media (max-width: 600px) {
-  .compass { width: 140px; }
-  .enter-circle { width: 190px; height: 190px; }
-  .scanner-row { flex-direction: column; gap: 12px; }
-  .atlas-symbol { font-size: 80px; }
-  .sign-grid { grid-template-columns: 1fr 1fr; }
-}
-</style>
+    .screen-subtitle {
+      color: var(--champagne);
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      text-align: center;
+      margin-bottom: 18px;
+      opacity: 0.8;
+    }
+
+    .content-body {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .content-body p { margin-bottom: 12px; }
+
+    .gold-btn {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(229, 197, 148, 0.3), rgba(229, 197, 148, 0.05));
+      border: 1px solid rgba(229, 197, 148, 0.6);
+      color: var(--champagne);
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .gold-btn:hover {
+      background: var(--champagne);
+      color: var(--void-bg);
+      box-shadow: 0 0 30px var(--champagne-glow);
+    }
+
+    .mountain-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .mountain-tile {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(229, 197, 148, 0.2);
+      border-radius: 16px;
+      padding: 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .mountain-tile:hover {
+      border-color: var(--champagne);
+      background: rgba(229, 197, 148, 0.08);
+      box-shadow: 0 0 20px rgba(229,197,148,0.2);
+    }
+
+    .mountain-tile h3 {
+      font-size: 12px;
+      color: var(--champagne);
+      margin-bottom: 3px;
+    }
+
+    .mountain-tile p {
+      font-size: 9.5px;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-block;
+      margin-bottom: 12px;
+      text-decoration: underline;
+    }
+
+    .back-link:hover { color: var(--champagne); }
+  </style>
 </head>
 <body>
 
-<!-- ✨ STARS -->
-<div class="stars">
-  <div class="star" style="width:2px;height:2px;top:8%;left:12%;"></div>
-  <div class="star" style="width:3px;height:3px;top:15%;left:85%;animation-delay:1s;"></div>
-  <div class="star" style="width:2px;height:2px;top:30%;left:5%;animation-delay:2s;"></div>
-  <div class="star" style="width:2px;height:2px;top:45%;left:70%;animation-delay:0.5s;"></div>
-  <div class="star" style="width:3px;height:3px;top:60%;left:20%;animation-delay:1.5s;"></div>
-  <div class="star" style="width:2px;height:2px;top:75%;left:90%;animation-delay:3s;"></div>
-  <div class="star" style="width:2px;height:2px;top:12%;left:30%;animation-delay:1.2s;"></div>
-  <div class="star" style="width:3px;height:3px;top:80%;left:65%;animation-delay:2.8s;"></div>
-</div>
+  <!-- Interactive Background Smoke Canvas -->
+  <canvas id="smokeCanvas"></canvas>
 
-<!-- 🌫️ MIST -->
-<div class="mist"></div>
+  <div class="app-container">
+    <div class="glass-card" id="glassCard">
 
-<!-- === FIRST SCREEN — LOGO RIGHT WAY ROUND === -->
-<div id="portal">
-  <div class="logo-wrap">
-    <!-- ✅ CORRECTED COMPASS — N FACING RIGHT WAY -->
-    <svg class="compass" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#E8D4B0"/><stop offset="50%" stop-color="#C8A97E"/><stop offset="100%" stop-color="#8B5A3C"/>
-        </linearGradient>
-        <linearGradient id="coralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#B87355"/><stop offset="100%" stop-color="#8B5A3C"/>
-        </linearGradient>
-        <filter id="g">
-          <feGaussianBlur stdDeviation="2.5"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <circle cx="100" cy="100" r="85" fill="none" stroke="url(#coralGrad)" stroke-width="4" filter="url(#g)"/>
-      <polygon points="100,10 107,42 93,42" fill="url(#coralGrad)" filter="url(#g)"/>
-      <polygon points="190,100 158,107 158,93" fill="url(#coralGrad)" filter="url(#g)"/>
-      <polygon points="100,190 107,158 93,158" fill="url(#coralGrad)" filter="url(#g)"/>
-      <polygon points="10,100 42,107 42,93" fill="url(#coralGrad)" filter="url(#g)"/>
-      <!-- ✅ N — NOT BACKWARDS ANYMORE -->
-      <path d="M70,55 L70,145 L85,145 L115,72 L115,145 L130,145 L130,55 L115,55 L85,128 L85,55 Z" fill="url(#gold)" filter="url(#g)"/>
-    </svg>
-    <h1 class="brand">NORTHSTAR</h1>
-    <p class="brand-sub">COLLECTION</p>
-  </div>
+      <!-- STEP 1: LANDING SCREEN (Interactive Smoke-Dissolving Logo Portal) -->
+      <div class="view-screen active" id="viewScreen1">
+        <div class="brand-top">Northstar Collection</div>
+        
+        <div class="portal-logo-box" id="portalLogo" onclick="triggerSmokeDissolve()" title="Touch to dissolve through smoke portal">
+          <h3>The Longest Journey</h3>
+          <p>"The longest journey is the search for one's self."</p>
+          <span style="font-size: 10px; color: var(--champagne); margin-top: 14px; letter-spacing: 1.5px; font-weight: 600;">✦ Touch Logo to Dissolve & Enter ✦</span>
+        </div>
 
-  <div class="mission-box">
-    <h2>✦ TRUE NORTH MISSION ✦</h2>
-    <p>Guiding every soul home to themselves<br>Immersive • Interactive • Helpful<br><br>Built from love, for all souls</p>
-  </div>
+        <h1 class="screen-title">True North Pathway</h1>
+        <div class="screen-subtitle">Sanctuary for the Overlooked</div>
 
-  <div class="enter-circle" onclick="goIn()">
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="gold2" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#E8D4B0"/><stop offset="50%" stop-color="#C8A97E"/><stop offset="100%" stop-color="#8B5A3C"/>
-        </linearGradient>
-        <linearGradient id="coral2" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#B87355"/><stop offset="100%" stop-color="#8B5A3C"/>
-        </linearGradient>
-      </defs>
-      <circle cx="100" cy="100" r="85" fill="none" stroke="url(#coral2)" stroke-width="4"/>
-      <polygon points="100,10 107,42 93,42" fill="url(#coral2)"/>
-      <polygon points="190,100 158,107 158,93" fill="url(#coral2)"/>
-      <polygon points="100,190 107,158 93,158" fill="url(#coral2)"/>
-      <polygon points="10,100 42,107 42,93" fill="url(#coral2)"/>
-      <path d="M70,55 L70,145 L85,145 L115,72 L115,145 L130,145 L130,55 L115,55 L85,128 L85,55 Z" fill="url(#gold2)"/>
-    </svg>
-  </div>
-  <p class="enter-text" onclick="goIn()">✦ CLICK TO BEGIN YOUR JOURNEY ✦</p>
-</div>
+        <button class="gold-btn" onclick="triggerSmokeDissolve()">Dissolve Through Smoke Portal ➔</button>
+      </div>
 
-<!-- === SECOND SCREEN — MOUNTAIN, ATLAS, ALL CLICKABLE === -->
-<div id="pathway">
-  <div class="path-header">
-    <h2>TRUE NORTH PATHWAY</h2>
-    <p>Immersive • Interactive • Helpful</p>
-  </div>
+      <!-- STEP 2: MISSION & COMMITMENT -->
+      <div class="view-screen" id="viewScreen2">
+        <div class="brand-top">Foundational Purpose</div>
+        <h1 class="screen-title">Our Commitment</h1>
+        <div class="screen-subtitle">Built for the Quiet & Forgotten</div>
+        
+        <div class="content-body">
+          <p>Everyone deserves to feel breathtaking. <strong>Your True North</strong> was built for the ones who stand quietly, the ones whose voices do not always boom, and the forgotten people of our communities who have carried too much alone.</p>
+          <p>This app is a living bridge: parents weaving love into home education, chores, and daily rhythms; teaching kids how to navigate real life; and bringing elders and youth together to protect community health.</p>
+        </div>
 
-  <div class="scanner-row">
-    <div class="scan-card blue" onclick="scanOpen('TRI Scanner')">
-      <div class="scan-icon">🔍</div><div>TRI Scanner</div>
+        <button class="gold-btn" onclick="goToView(3)">Proceed to Mountain Pathway Rooms ➔</button>
+        <div style="text-align: center; margin-top: 12px;">
+          <span class="back-link" onclick="goToView(1)">← Back to Landing Portal</span>
+        </div>
+      </div>
+
+      <!-- STEP 3: MOUNTAIN PATHWAY ROOMS -->
+      <div class="view-screen" id="viewScreen3">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h2 style="font-size: 13px; color: var(--champagne); letter-spacing: 1.5px;">GENIE MOUNTAIN PATHWAY</h2>
+          <span class="back-link" style="margin:0;" onclick="goToView(2)">← Back</span>
+        </div>
+        <p style="font-size: 10px; color: var(--text-muted); margin-bottom: 14px;">Select a room along your path:</p>
+        
+        <div class="mountain-grid">
+          <div class="mountain-tile" onclick="openRoom('mens')">
+            <h3>Men's Ascent</h3>
+            <p>Strength, style, grooming & capsules.</p>
+          </div>
+          <div class="mountain-tile" onclick="openRoom('womens')">
+            <h3>Women's Sanctuary</h3>
+            <p>High fashion, styling & calm.</p>
+          </div>
+          <div class="mountain-tile" onclick="openRoom('family')">
+            <h3>Family & Chores</h3>
+            <p>Chores, requests & calendar.</p>
+          </div>
+          <div class="mountain-tile" onclick="openRoom('teens')">
+            <h3>Teen Growth & Escrow</h3>
+            <p>Empowerment & odd-jobs.</p>
+          </div>
+          <div class="mountain-tile" onclick="openRoom('planner')">
+            <h3>Event Planner</h3>
+            <p>Budgets & affiliate links.</p>
+          </div>
+          <div class="mountain-tile" onclick="openRoom('journal')">
+            <h3>Journal Brain Dump</h3>
+            <p>Daily processing space.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROOM CONTENT VIEW -->
+      <div class="view-screen" id="viewRoomDetail">
+        <span class="back-link" onclick="goToView(3)">← Back to Pathway Rooms</span>
+        <div id="roomContentDynamic"></div>
+      </div>
+
     </div>
-    <div class="scan-card green" onclick="scanOpen('Toxin Scanner')">
-      <div class="scan-icon">🌿</div><div>Toxin Scanner</div>
-    </div>
   </div>
 
-  <div class="atlas-box">
-    <div class="atlas-glow"></div>
-    <div class="atlas-symbol">✧</div>
-    <div class="atlas-label">ATLAS — YOUR GUIDE</div>
-  </div>
+  <script>
+    // Interactive Smoke Particle Canvas Animation with Mouse/Touch Reactivity
+    const canvas = document.getElementById('smokeCanvas');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
 
-  <div class="sign-grid">
-    <button class="sign-btn" onclick="zoneOpen('Teen Hub')">Teen Hub</button>
-    <button class="sign-btn" onclick="zoneOpen('Men\'s Zone')">Men's Zone</button>
-    <button class="sign-btn" onclick="zoneOpen('Family Hub')">Family Hub</button>
-    <button class="sign-btn" onclick="zoneOpen('Wellness')">Wellness</button>
-    <button class="sign-btn" onclick="zoneOpen('Journal')">Journal</button>
-    <button class="sign-btn" onclick="zoneOpen('Shop')">Shop</button>
-    <button class="sign-btn" onclick="zoneOpen('Schedule')">Schedule</button>
-    <button class="sign-btn" onclick="zoneOpen('Brain Dump')">Brain Dump</button>
-  </div>
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
 
-  <span class="back-link" onclick="goBack()">← Back to Portal</span>
+    const particles = [];
+    for (let i = 0; i < 60; i++) {
+      particles.push({
+        x: Math.random() * canvas.width, 
+        y: Math.random() * canvas.height,
+        r: Math.random() * 150 + 70, 
+        vx: (Math.random() - 0.5) * 0.35, 
+        vy: (Math.random() - 0.5) * 0.35, 
+        alpha: Math.random() * 0.045 + 0.015
+      });
+    }
 
-  <p class="notes">
-    © 2026 Northstar Collection — Created with love by Kassie & family.<br>
-    All guidance for inspiration only — built from lived experience, not professional advice.
-    Always seek professional support for health, medical or legal matters. You are seen. You are loved. You belong.
-  </p>
-</div>
+    function renderSmoke() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx; 
+        p.y += p.vy;
+        
+        // Gentle pull toward mouse for interactivity
+        let dx = mouseX - p.x;
+        let dy = mouseY - p.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 300) {
+          p.x += (dx / dist) * 0.2;
+          p.y += (dy / dist) * 0.2;
+        }
 
-<script>
-function goIn() {
-  document.getElementById('portal').classList.add('fade-away');
-  setTimeout(() => { document.getElementById('pathway').classList.add('visible'); }, 700);
-}
-function goBack() {
-  document.getElementById('pathway').classList.remove('visible');
-  setTimeout(() => { document.getElementById('portal').classList.remove('fade-away'); }, 700);
-}
-function scanOpen(name) { alert('✦ ' + name + ' ✦\\n\\nOpening your magical guide...\\n\\nComing soon.'); }
-function zoneOpen(name) { alert('✦ ' + name + ' ✦\\n\\nEntering your sacred space...\\n\\nComing soon.'); }
-</script>
+        if (p.x < -100) p.x = canvas.width + 100; 
+        if (p.x > canvas.width + 100) p.x = -100;
+        if (p.y < -100) p.y = canvas.height + 100; 
+        if (p.y > canvas.height + 100) p.y = -100;
+        
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+        grad.addColorStop(0, `rgba(229, 197, 148, ${p.alpha * 1.8})`);
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.beginPath(); 
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); 
+        ctx.fill();
+      });
+      requestAnimationFrame(renderSmoke);
+    }
+    renderSmoke();
 
+    function triggerSmokeDissolve() {
+      const portal = document.getElementById('portalLogo');
+      portal.classList.add('dissolving');
+      
+      // Temporarily supercharge smoke density on click for immersion
+      particles.forEach(p => { p.r *= 1.4; });
+
+      setTimeout(() => {
+        portal.classList.remove('dissolving');
+        goToView(2);
+      }, 550);
+    }
+
+    function goToView(screenNum) {
+      document.getElementById('viewScreen1').classList.remove('active');
+      document.getElementById('viewScreen2').classList.remove('active');
+      document.getElementById('viewScreen3').classList.remove('active');
+      document.getElementById('viewRoomDetail').classList.remove('active');
+
+      if(screenNum === 1) document.getElementById('viewScreen1').classList.add('active');
+      if(screenNum === 2) document.getElementById('viewScreen2').classList.add('active');
+      if(screenNum === 3) document.getElementById('viewScreen3').classList.add('active');
+    }
+
+    function openRoom(roomType) {
+      document.getElementById('viewScreen3').classList.remove('active');
+      const container = document.getElementById('roomContentDynamic');
+      let html = '';
+
+      if(roomType === 'mens') {
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Men's Ascent</h3><p style="font-size: 11px; color: var(--text-muted);">Tailored wardrobe capsules and grooming essentials.</p>`;
+      } else if(roomType === 'womens') {
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Women's Sanctuary</h3><p style="font-size: 11px; color: var(--text-muted);">High-fashion aesthetics and holistic inner calm.</p>`;
+      } else if(roomType === 'family') {
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Family & Chores Hub</h3><p style="font-size: 11px; color: var(--text-muted);">Home-ed schedules and kid requests.</p>`;
+      } else if(roomType === 'teens') {
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Teen Growth & Escrow</h3><p style="font-size: 11px; color: var(--text-muted);">Secure odd-jobs and empowerment agreements.</p>`;
+      } else if(roomType === 'planner') {
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Event Planner</h3><p style="font-size: 11px; color: var(--text-muted);">Cyprus beach celebration styling and budgets.</p>`;
+      } else if(roomType === 'journal') {
+        html = `<h3 style="color: var(--champagne); font-size: 14px; margin-bottom: 8px;">Journal Brain Dump</h3><p style="font-size: 11px; color: var(--text-muted);">Daily processing space.</p>`;
+      }
+
+      container.innerHTML = html;
+      document.getElementById('viewRoomDetail').classList.add('active');
+    }
+  </script>
 </body>
 </html>
