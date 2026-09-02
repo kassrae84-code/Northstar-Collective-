@@ -1,1 +1,21 @@
-git clone https://x:art_v2_x_bc40a2d9a718b3a081f81ebe2331e4f23edbd7a9@31b91e7f9954ad8aa334d46f012bd8ed.artifacts.cloudflare.net/git/lee-production/lee-northstar-collective-atlas-41bb5a06.git northstar-collective-atlas
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Northstar Collective — Atlas</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0a0a1a;--bg2:#12122a;--glass:rgba(255,255,255,0.06);--gb:rgba(255,255,255,0.12);--text:#e8e8f0;--dim:#9090b0;--accent:#7b68ee;--a2:#00e5ff;--a3:#ff6ec7;--gold:#ffd700;--green:#4ade80;--red:#ef4444;--orange:#fb923c;--coral:#ff7f6e;--pink:#ff6ec7;--champagne:#f7e7c1;--r:16px}
+html,body{height:100%;overflow:hidden}body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;position:fixed;width:100%;height:100%}
+.screen{position:fixed;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto}.screen.active{display:flex;animation:si .6s ease}@keyframes si{from{opacity:0}to{opacity:1}}.screen.fade-out{animation:so .8s ease forwards}@keyframes so{from{opacity:1}to{opacity:0}}
+#stage-logo{background:radial-gradient(ellipse at center,#12122a,#0a0a1a);text-align:center;cursor:pointer}.logo-glow{font-size:2.8rem;font-weight:800;letter-spacing:2px;background:linear-gradient(135deg,var(--a2),var(--accent),var(--a3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:lp 3s infinite ease-in-out}@keyframes lp{0%,100%{filter:drop-shadow(0 0 10px rgba(123,104,238,.4))}50%{filter:drop-shadow(0 0 30px rgba(123,104,238,.7))}}.logo-sub{color:var(--dim);font-size:.9rem;margin-top:12px;max-width:320px;text-align:center;line-height:1.6}.logo-tap{color:var(--a2);font-size:.85rem;margin-top:24px;animation:bk 1.5s infinite}@keyframes bk{0%,100%{opacity:1}50%{opacity:.3}}.logo-stars{position:absolute;inset:0;pointer-events:none}.logo-star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:tw 3s infinite}@keyframes tw{0%,100%{opacity:.2}50%{opacity:1}}
+#stage-smoke{background:#0a0a1a}.smoke-laonclick="addWishlist()">+ Add</button></div><div id="wlList" style="margin-top:12px"></div><div style="text-align:center;margin-top:12px"><strong style="color:var(--gold)">Total: $<span id="wlTotal">0</span></strong></div></div>';renderWL()}
+function renderWL(){$('wlList').innerHTML=wishlist.map(function(w,i){return '<div class="wl-item"><span class="wi">'+w.icon+'</span><span class="wt">'+w.name+'</span>'+(w.link?'<a class="wl-link" href="'+w.link+'" target="_blank">View →</a>':'')+'<span class="wp">$'+w.price+'</span><button class="cd" onclick="delWL('+i+')">✕</button></div>'}).join('')||'<p style="color:var(--dim);text-align:center;padding:8px">Wishlist is empty.</p>';$('wlTotal').textContent=wishlist.reduce(function(s,w){return s+Number(w.price)},0)}
+function addWishlist(){var n=$('wlName').value.trim(),p=$('wlPrice').value||'0',l=$('wlLink').value.trim();if(!n){toast('Enter item name!');return}var icons=['🛍️','🎁','⭐','📦','👕','🎮','📱','👟','📚','🎨'];wishlist.unshift({name:n,price:Number(p),icon:icons[Math.floor(Math.random()*icons.length)],link:l});lsSet('wishlist',wishlist);$('wlName').value='';$('wlPrice').value='';$('wlLink').value='';renderWL();toast('Added to wishlist!')}
+function delWL(i){wishlist.splice(i,1);lsSet('wishlist',wishlist);renderWL()}
+makeStars($('logoStars'),40);
+</script>
+</body>
+</html>
+
